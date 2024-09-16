@@ -1,5 +1,22 @@
 @use "./styleSheet/reset";
-@use "./styleSheet/theme";
 @use "./styleSheet/mixins";
 @use "./styleSheet/typography";
 @use "./styleSheet/variables";
+@import "./styleSheet/theme";
+
+:root {
+  @each $key, $value in $light-mode {
+    --#{$key}: #{$value};
+  }
+}
+
+.dark-mode {
+  @each $key, $value in $dark-mode {
+    --#{$key}: #{$value};
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-clr);
+}
