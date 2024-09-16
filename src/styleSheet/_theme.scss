@@ -1,0 +1,15 @@
+@import "../styleSheet/variables";
+
+$light-mode: (
+  "background": $light-grey-light-bg,
+  "header-bg": $white,
+  "text-clr": $black,
+  "line": $line-light,
+);
+
+$dark-mode: (
+  "background": $very-dark-grey-bg,
+  "header-bg": $dark-grey,
+  "text-clr": $white,
+  "line": $line-dark,
+);
