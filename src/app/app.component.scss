@@ -1,1 +1,13 @@
+@use "../styleSheet/breakpoints";
+@import "../styleSheet/mixins";
 
+.App {
+}
+
+@include breakpoints.mq(tablet) {
+  .App {
+    .main {
+      @include flex-row();
+    }
+  }
+}

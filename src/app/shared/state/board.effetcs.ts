@@ -4,6 +4,7 @@ import { ApiService } from '../services/api.service';
 import * as BoardActions from './board.actions';
 import { catchError, map, mergeMap, of } from 'rxjs';
 import { IBoardData } from '../../interfaces/board-data';
+import { IBoard } from '../../interfaces/board';
 
 @Injectable()
 export class BoardEffects {
@@ -12,17 +13,25 @@ export class BoardEffects {
   loadBoards$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BoardActions.loadBoards),
-      mergeMap(() =>
-        this.apiService.getAllBoards().pipe(
-          map((response: IBoardData) =>
-            // Extract the boards array from the response and pass it to the action
-            BoardActions.loadBoardsSuccess({ boards: response.boards })
-          ),
-          catchError((error) =>
-            of(BoardActions.loadBoardsFailure({ error: error.message }))
-          )
-        )
-      )
+      mergeMap(() => {
+        const saveLocalStorage = localStorage.getItem('boards');
+
+        if (saveLocalStorage) {
+          const boards: IBoard[] = JSON.parse(saveLocalStorage);
+          return of(BoardActions.loadBoardsSuccess({ boards }));
+        } else {
+          // Fetch boards from the API
+          return this.apiService.getAllBoards().pipe(
+            map((response) => {
+              const boards: IBoard[] = response.boards;
+              return BoardActions.loadBoardsSuccess({ boards });
+            }),
+            catchError((error) =>
+              of(BoardActions.loadBoardsFailure({ error: error.message }))
+            )
+          );
+        }
+      })
     )
   );
 }

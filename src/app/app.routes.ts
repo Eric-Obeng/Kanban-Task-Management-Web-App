@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { MenuMobileComponent } from './components/menu-mobile/menu-mobile.component';
+import { BoardComponent } from './components/board/board.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: MenuMobileComponent,
+    component: BoardComponent,
   },
 ];

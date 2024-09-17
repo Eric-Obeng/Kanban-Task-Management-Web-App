@@ -12,7 +12,7 @@
       </div>
       <div class="column-name">
         <p>Platform Launch</p>
-        <span>
+        <span (click)="onShowMenuModal()">
           <img
             src="../../../assets/images/icon-chevron-down.svg"
             alt="icon chevron down"
@@ -38,3 +38,7 @@
     </div>
   </div>
 </div>
+
+@if (showMenuModal) {
+<app-menu-mobile (hideMenu)="onHideMenuModal()" />
+}
