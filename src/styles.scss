@@ -5,13 +5,13 @@
 @import "./styleSheet/theme";
 
 :root {
-  @each $key, $value in $dark-mode {
+  @each $key, $value in $light-mode {
     --#{$key}: #{$value};
   }
 }
 
 .dark-mode {
-  @each $key, $value in $dark-mode {
+  @each $key, $value in $light-mode {
     --#{$key}: #{$value};
   }
 }
