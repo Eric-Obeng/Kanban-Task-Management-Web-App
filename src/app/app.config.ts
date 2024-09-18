@@ -7,8 +7,9 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideState, provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { BoardEffects } from './shared/state/board.effetcs';
-import { boardReducer } from './shared/state/board.reducers';
+import { BoardEffects } from './shared/state/board/board.effetcs';
+import { boardReducer } from './shared/state/board/board.reducers';
+import { ThemeEffect } from './shared/state/theme/theme.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,7 +21,7 @@ export const appConfig: ApplicationConfig = {
       name: 'boards',
       reducer: boardReducer,
     }),
-    provideEffects(BoardEffects),
+    provideEffects(BoardEffects, ThemeEffect),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],
 };
