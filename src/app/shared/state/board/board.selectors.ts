@@ -10,5 +10,13 @@ export const {
   selectEntities: selectBoardEntity,
 } = boardAdapter.getSelectors(selectedBoardState);
 
-export const selectBoardById = (id: number) =>
-  createSelector(selectBoardEntity, (boards) => boards[id]);
+export const selectSelectedBoardId = createSelector(
+  selectedBoardState,
+  (state) => state.selectedBoardId
+);
+
+export const selectSelectedBoard = createSelector(
+  selectedBoardState,
+  selectSelectedBoardId,
+  (state, selectedBoard) => state.selectedBoard
+);

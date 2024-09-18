@@ -21,10 +21,16 @@ export const boardReducer = createReducer(
   on(BoardActions.deleteBoard, (state, { id }) =>
     boardAdapter.removeOne(id, state)
   ),
-  on(BoardActions.setSelectedBoard, (state, { board }) => ({
-    ...state,
-    selectedBoard: board.id,
-  }))
+  on(
+    BoardActions.setSelectedBoard,
+    (state, { board }) => (
+      console.log(state),
+      {
+        ...state,
+        selectedBoard: board,
+      }
+    )
+  )
 );
 
 export const { selectAll, selectEntities } = boardAdapter.getSelectors();
