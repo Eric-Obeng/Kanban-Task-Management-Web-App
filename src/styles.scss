@@ -11,7 +11,7 @@
 }
 
 .dark-mode {
-  @each $key, $value in $light-mode {
+  @each $key, $value in $dark-mode {
     --#{$key}: #{$value};
   }
 }

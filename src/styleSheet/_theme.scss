@@ -5,6 +5,7 @@ $light-mode: (
   "header-bg": $white,
   "text-clr": $black,
   "line": $line-light,
+  "theme-bg": $light-grey-light-bg,
 );
 
 $dark-mode: (
@@ -12,4 +13,5 @@ $dark-mode: (
   "header-bg": $dark-grey,
   "text-clr": $white,
   "line": $line-dark,
+  "theme-bg": $very-dark-grey-bg,
 );
