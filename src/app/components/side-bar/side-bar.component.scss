@@ -69,6 +69,7 @@
     }
 
     .theme {
+      width: 100%;
       padding: 0 2.4rem 2.4rem 2.4rem;
     }
   }
@@ -81,6 +82,7 @@
     width: 26rem;
 
     .menu {
+      @include flex-column(start, space-between);
       top: 0;
       left: 0;
       transform: translate(0);
