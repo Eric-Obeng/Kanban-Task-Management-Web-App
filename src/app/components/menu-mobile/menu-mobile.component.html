@@ -1,5 +1,8 @@
 <div class="container" (click)="onHideMenu()" *ngIf="hideMenu">
-  <div class="menu" (click)="$event.stopPropagation()">
+
+</div>
+
+<div class="menu" (click)="$event.stopPropagation()">
     <p class="boards">ALL BOARDS ({{ totalBoards | async }})</p>
     <div class="all-boards" *ngIf="boards | async as boards">
       @for (board of boards; track $index) {
@@ -25,4 +28,3 @@
       <app-theme />
     </div>
   </div>
-</div>

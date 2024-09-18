@@ -1,15 +1,13 @@
 <div *ngIf="boards$ | async as boards" class="container">
   @for (column of boards.columns; track $index) {
-  <p>{{ column.name }}</p>
-  <div>
-    @for (task of column.tasks; track $index) {
-    <h4>{{ task.title }}</h4>
-    <p>{{ task.description }}</p>
-    <p>{{ task.subtasks.length }} subtasks</p>
-    @for (subtasks of task.subtasks; track $index) {
-    <h5>{{ subtasks.title.length }}</h5>
-    <!-- <p>{{ subtasks.description }}</p> -->
-    } }
+  <div class="column-items">
+    <p>{{ column.name }}</p>
+    <ul class="tasks">
+      @for (task of column.tasks; track $index) {
+      <app-task-item [task]="task" />
+      }
+    </ul>
   </div>
   }
+  <button>+ New Column</button>
 </div>

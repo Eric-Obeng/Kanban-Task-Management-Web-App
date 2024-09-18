@@ -8,6 +8,7 @@
   height: $heading-height;
   @include flex-row(center, start, 0px);
   background-color: var(--header-bg);
+  overflow-x: hidden;
 
   .logo-large {
     display: none;

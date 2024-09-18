@@ -1,0 +1,32 @@
+@use "../../../styleSheet/breakpoints";
+@import "../../../styleSheet/mixins";
+@import "../../../styleSheet/variables";
+
+.container {
+  @include flex-row(start, start, 2rem);
+  overflow: auto;
+  padding: 2rem;
+
+  .column-items {
+    width: 28rem;
+    @include flex-column(start, start, 2.4rem);
+    flex-shrink: 0;
+
+    .tasks {
+      width: 100%;
+      @include flex-column(start, start, 2rem);
+    }
+  }
+}
+
+@include breakpoints.mq(tablet) {
+  .container {
+    width: 100%;
+    overflow: auto;
+    // overflow: none;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+    height: calc(100vh - 8rem);
+    border: 2px solid red;
+  }
+}
