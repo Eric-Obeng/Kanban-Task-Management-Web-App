@@ -13,3 +13,15 @@
   justify-content: $justify;
   gap: $gap;
 }
+
+@mixin button($color, $background, $hover) {
+  background-color: $background;
+  color: $color;
+  border: none;
+  border-radius: 2.4rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $hover;
+  }
+}

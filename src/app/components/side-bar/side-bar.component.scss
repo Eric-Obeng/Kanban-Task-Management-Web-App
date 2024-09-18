@@ -1,0 +1,105 @@
+@use "../../../styleSheet/breakpoints";
+@import "../../../styleSheet/mixins";
+@import "../../../styleSheet/variables";
+@import "../../../styleSheet/typography";
+
+.container {
+  width: 100%;
+  height: calc(100vh - 8rem);
+  background: rgba(0, 0, 0, 0.25);
+  position: relative;
+  display: none;
+
+  .menu {
+    background-color: var(--header-bg);
+    width: 32.2rem;
+    border-radius: 0.8rem;
+    @include flex-column(start, start, 1.9rem);
+    @extend .medium;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%);
+
+    .boards {
+      padding: 2.4rem 2.4rem 0px 2.4rem;
+      color: $medium-grey;
+    }
+
+    .all-boards {
+      @include flex-column(start, start, 0.5rem);
+      .row {
+        height: 4.8rem;
+        width: 24rem;
+        display: block;
+        @include flex-row(center, start, 1.9rem);
+        padding: 1rem 2.4rem;
+        color: $medium-grey;
+        border-radius: 0 10rem 10rem 0;
+
+        &:link {
+          text-decoration: none;
+        }
+
+        &:hover {
+          color: $white;
+          background-color: $main-purple-hover;
+        }
+
+        &:focus-within {
+          color: $white;
+          background-color: $main-purple;
+        }
+
+        &.create {
+          width: 100%;
+          color: $main-purple;
+
+          &:hover {
+            background: $main-purple-hover;
+            color: $white;
+          }
+
+          &:focus-within {
+            background: $main-purple;
+            color: $white;
+          }
+        }
+      }
+    }
+
+    .theme {
+      width: 100%;
+      padding: 0 2.4rem 2.4rem 2.4rem;
+    }
+  }
+}
+
+@include breakpoints.mq(tablet) {
+  .container {
+    display: block;
+    background: none;
+    width: 26rem;
+
+    .menu {
+      @include flex-column(start, space-between);
+      top: 0;
+      left: 0;
+      transform: translate(0);
+      height: 100%;
+      border-radius: 0;
+      width: 26rem;
+      border-right: 0.2rem solid var(--line);
+    }
+  }
+}
+
+@include breakpoints.mq(desktop) {
+  .container {
+    display: block;
+    width: 30rem;
+    .menu {
+      width: 30rem;
+    }
+  }
+}

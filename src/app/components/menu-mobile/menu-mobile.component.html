@@ -1,0 +1,28 @@
+<div class="container" (click)="onHideMenu()" *ngIf="hideMenu">
+  <div class="menu" (click)="$event.stopPropagation()">
+    <p class="boards">ALL BOARDS ({{ totalBoards | async }})</p>
+    <div class="all-boards" *ngIf="boards | async as boards">
+      @for (board of boards; track $index) {
+      <a href="#" class="row">
+        <span>
+          <img
+            src="../../../assets/images/icon-board.svg"
+            alt="icon board icon"
+          />
+        </span>
+        <p>{{ board.name }}</p>
+      </a>
+      }
+      <div class="row create">
+        <img
+          src="../../../assets/images/icon-board.svg"
+          alt="icon board icon"
+        />
+        <h3>+ Create New Board</h3>
+      </div>
+    </div>
+    <div class="theme">
+      <app-theme />
+    </div>
+  </div>
+</div>

@@ -10,7 +10,7 @@
       <div class="logo-small">
         <img src="../../../assets/images/logo-mobile.svg" alt="logo icon" />
       </div>
-      <div class="column-name">
+      <div class="column-name" (click)="onShowMenuModal()">
         <p>Platform Launch</p>
         <span>
           <img
@@ -38,3 +38,7 @@
     </div>
   </div>
 </div>
+
+@if (showMenuModal) {
+<app-menu-mobile (hideMenu)="onHideMenuModal()" />
+}
