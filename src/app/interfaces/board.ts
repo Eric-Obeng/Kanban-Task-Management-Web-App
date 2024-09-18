@@ -1,7 +1,7 @@
 import { IColumn } from './column';
 
 export interface IBoard {
-  id: string,
+  id: string;
   name: string;
-  columns: IColumn;
+  columns: IColumn[];
 }
