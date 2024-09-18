@@ -8,12 +8,12 @@ import {
 } from '../../shared/state/board/board.selectors';
 import * as BoardActions from '../../shared/state/board/board.actions';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { BoardItemComponent } from './board-item/board-item.component';
+import { TaskItemComponent } from './task-item/task-item.component';
 
 @Component({
   selector: 'app-board',
   standalone: true,
-  imports: [CommonModule, AsyncPipe, BoardItemComponent],
+  imports: [CommonModule, AsyncPipe, TaskItemComponent],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss',
 })
@@ -23,7 +23,7 @@ export class BoardComponent {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.boards$ = this.store.select(selectSelectedBoard)
+    this.boards$ = this.store.select(selectSelectedBoard);
     console.log(this.boards$);
   }
 }
