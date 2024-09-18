@@ -10,6 +10,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { BoardEffects } from './shared/state/board/board.effetcs';
 import { boardReducer } from './shared/state/board/board.reducers';
 import { ThemeEffect } from './shared/state/theme/theme.effects';
+import { themeReducer } from './shared/state/theme/theme.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,6 +21,10 @@ export const appConfig: ApplicationConfig = {
     provideState({
       name: 'boards',
       reducer: boardReducer,
+    }),
+    provideState({
+      name: 'theme',
+      reducer: themeReducer,
     }),
     provideEffects(BoardEffects, ThemeEffect),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
