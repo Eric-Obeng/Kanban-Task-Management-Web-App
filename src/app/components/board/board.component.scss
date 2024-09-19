@@ -1,11 +1,18 @@
 @use "../../../styleSheet/breakpoints";
 @import "../../../styleSheet/mixins";
 @import "../../../styleSheet/variables";
+@import "../../../styleSheet/typography";
 
 .container {
   @include flex-row(start, start, 2rem);
   overflow: auto;
   padding: 2rem;
+  width: 100%;
+  height: auto;
+  overflow: auto;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+  height: calc(100vh - 8rem);
 
   .column-items {
     width: 28rem;
@@ -15,6 +22,23 @@
     .tasks {
       width: 100%;
       @include flex-column(start, start, 2rem);
+    }
+  }
+
+  .add-column {
+    @include flex-column(center, center, 2rem);
+    width: 28rem;
+    height: 81.4rem;
+    flex-shrink: 0;
+    border-radius: 0.6rem;
+    background: var(--new-column-bg);
+    border: none;
+    margin-top: 4.5rem;
+    @extend .x-large;
+    color: $medium-grey;
+
+    &:hover {
+      color: $main-purple;
     }
   }
 }
@@ -27,6 +51,5 @@
     scrollbar-width: none;
     scroll-behavior: smooth;
     height: calc(100vh - 8rem);
-    border: 2px solid red;
   }
 }
