@@ -6,7 +6,7 @@
     <p class="boards">ALL BOARDS ({{ totalBoards | async }})</p>
     <div class="all-boards" *ngIf="boards | async as boards">
       @for (board of boards; track $index) {
-      <a href="#" class="row">
+      <a href="#" class="row" (click)="onBoardClicK(board)">
         <span>
           <img
             src="../../../assets/images/icon-board.svg"
