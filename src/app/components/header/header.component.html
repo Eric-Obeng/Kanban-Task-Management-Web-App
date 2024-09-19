@@ -11,7 +11,9 @@
         <img src="../../../assets/images/logo-mobile.svg" alt="logo icon" />
       </div>
       <div class="column-name" (click)="onShowMenuModal()">
-        <p>Platform Launch</p>
+        <p *ngIf="selectedBoards$ | async as board">
+          {{ board ? board.name : "No Board Selected" }}
+        </p>
         <span>
           <img
             src="../../../assets/images/icon-chevron-down.svg"
