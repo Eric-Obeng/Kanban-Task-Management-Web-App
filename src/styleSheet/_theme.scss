@@ -6,6 +6,8 @@ $light-mode: (
   "text-clr": $black,
   "line": $line-light,
   "theme-bg": $light-grey-light-bg,
+  "new-column-bg":
+    linear-gradient(180deg, #e9effa 0%, rgba(233, 239, 250, 0.5) 100%),
 );
 
 $dark-mode: (
@@ -14,4 +16,10 @@ $dark-mode: (
   "text-clr": $white,
   "line": $line-dark,
   "theme-bg": $very-dark-grey-bg,
+  "new-column-bg":
+    linear-gradient(
+      180deg,
+      rgba(43, 44, 55, 0.25) 0%,
+      rgba(43, 44, 55, 0.13) 100%
+    ),
 );
