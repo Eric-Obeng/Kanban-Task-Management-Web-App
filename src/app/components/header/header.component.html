@@ -11,9 +11,14 @@
         <img src="../../../assets/images/logo-mobile.svg" alt="logo icon" />
       </div>
       <div class="column-name" (click)="onShowMenuModal()">
-        <p *ngIf="selectedBoards$ | async as board">
-          {{ board ? board.name : "No Board Selected" }}
+        @if (selectedBoards$ | async; as board) {
+        <p>
+          {{ board.name }}
         </p>
+        }@else {
+        <p>No Board Selected</p>
+        }
+
         <span>
           <img
             src="../../../assets/images/icon-chevron-down.svg"
@@ -32,11 +37,12 @@
 
         <span class="add-icon-large">+Add New Task</span>
       </button>
-      <button class="menu">
+      <!-- <button class="menu">
         <span>
           <img src="../../../assets/images/icon-vertical-ellipsis.svg" alt="" />
         </span>
-      </button>
+      </button> -->
+      <app-actions />
     </div>
   </div>
 </div>

@@ -1,0 +1,17 @@
+<div class="container" (click)="onHideMenu()"></div>
+<div class="task-detail-div" (click)="$event.stopPropagation()">
+  <div class="col-1">
+    <p class="task-title">
+      {{ task.title }}
+    </p>
+    <div class="actions">
+      <app-actions />
+    </div>
+  </div>
+  <div>
+    <p>
+      {{ task.description }}
+    </p>
+  </div>
+  <div></div>
+</div>

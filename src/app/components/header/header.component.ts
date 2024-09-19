@@ -6,12 +6,13 @@ import { IBoard } from '../../interfaces/board';
 import { Store } from '@ngrx/store';
 import { selectSelectedBoard } from '../../shared/state/board/board.selectors';
 import { CommonModule } from '@angular/common';
+import { ActionsComponent } from "../modal/actions/actions.component";
 // import { selectSelectedBoard } from '../../shared/state/board/board.selectors';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MenuMobileComponent, CommonModule],
+  imports: [MenuMobileComponent, CommonModule, ActionsComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })

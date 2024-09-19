@@ -5,8 +5,13 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './actions.component.html',
-  styleUrl: './actions.component.scss'
+  styleUrl: './actions.component.scss',
 })
 export class ActionsComponent {
+  showActions: boolean = false;
 
+  onshowActions() {
+    this.showActions = !this.showActions;
+  }
+  
 }

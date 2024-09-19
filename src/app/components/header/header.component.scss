@@ -9,6 +9,7 @@
   @include flex-row(center, start, 0px);
   background-color: var(--header-bg);
   overflow-x: hidden;
+  z-index: 1;
 
   .logo-large {
     display: none;

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ApiService } from '../../services/api.service';
 import * as BoardActions from './board.actions';
-import { catchError, map, mergeMap, of } from 'rxjs';
+import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { IBoardData } from '../../../interfaces/board-data';
 import { IBoard } from '../../../interfaces/board';
 import { v4 as uuidv4 } from 'uuid';
@@ -19,11 +19,11 @@ export class BoardEffects {
 
         if (saveLocalStorage) {
           const boards: IBoard[] = JSON.parse(saveLocalStorage);
-          const boardsWithId = boards.map((board) => ({
-            ...board,
-            id: board.id || uuidv4(),
-          }));
-          return of(BoardActions.loadBoardsSuccess({ boards: boardsWithId }));
+          // const boardsWithId = boards.map((board) => ({
+          //   ...board,
+          //   id: board.id || uuidv4(),
+          // }));
+          return of(BoardActions.loadBoardsSuccess({ boards }));
         } else {
           // Fetch boards from the API
           return this.apiService.getAllBoards().pipe(
@@ -32,6 +32,9 @@ export class BoardEffects {
                 ...board,
                 id: uuidv4(),
               }));
+              tap((boards: IBoard) => {
+                localStorage.setItem('board', JSON.stringify(boards));
+              });
               return BoardActions.loadBoardsSuccess({ boards });
             }),
             catchError((error) =>

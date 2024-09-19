@@ -11,7 +11,7 @@
     overflow: hidden;
 
     .main {
-      @include flex-row();
+      @include flex-row(start, start, 0rem);
 
       .content {
         overflow: auto;

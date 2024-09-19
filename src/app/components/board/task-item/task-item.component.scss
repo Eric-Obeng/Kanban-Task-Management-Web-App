@@ -9,7 +9,15 @@
   padding: 2.3rem 1.6rem;
   border-radius: 0.8rem;
   @include flex-column(start, center, 0.8rem);
+  cursor: pointer;
+  position: relative;
   box-shadow: 0rem 2px 0.5rem 0rem #3e588b;
+
+  &:hover {
+    .title {
+      color: $main-purple;
+    }
+  }
 
   .title {
     @extend .medium;
@@ -20,3 +28,7 @@
     font-weight: 600;
   }
 }
+
+// .details {
+//   position: absolute;
+// }

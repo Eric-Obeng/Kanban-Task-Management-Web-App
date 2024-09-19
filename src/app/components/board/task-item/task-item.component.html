@@ -1,4 +1,11 @@
-<div class="task">
+<div class="task" (click)="onShowMenuModal()">
   <p class="title">{{ task.title }}</p>
   <p class="total">0 of {{ task.subtasks.length }} subtasks</p>
 </div>
+
+@if (showMenuModal) {
+
+<div class="details">
+  <app-task-deatils [task]="task" (hideMenu)="onHideMenuModal()" />
+</div>
+}

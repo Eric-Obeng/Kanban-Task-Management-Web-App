@@ -18,7 +18,6 @@ export class MenuMobileComponent {
   totalBoards = this.boardService.totalBoards$;
 
   @Output() hideMenu = new EventEmitter<void>();
-
   @Input() showSideBar!: boolean;
 
   constructor(private boardService: BoardService, private store: Store) {}

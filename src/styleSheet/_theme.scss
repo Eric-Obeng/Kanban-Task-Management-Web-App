@@ -8,6 +8,8 @@ $light-mode: (
   "theme-bg": $light-grey-light-bg,
   "new-column-bg":
     linear-gradient(180deg, #e9effa 0%, rgba(233, 239, 250, 0.5) 100%),
+  "action": $white,
+  
 );
 
 $dark-mode: (
@@ -22,4 +24,5 @@ $dark-mode: (
       rgba(43, 44, 55, 0.25) 0%,
       rgba(43, 44, 55, 0.13) 100%
     ),
+  "action": $very-dark-grey-bg,
 );

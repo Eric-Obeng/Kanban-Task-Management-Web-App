@@ -1,0 +1,49 @@
+@import "../../../../styleSheet/mixins";
+@import "../../../../styleSheet/variables";
+@import "../../../../styleSheet/typography";
+
+// .action-bg {
+//   position: absolute;
+//   width: 100%;
+//   height: 100vh;
+//   background: rgba(0, 0, 0, 0.6);
+//   top: 0;
+//   left: 0;
+//   opacity: 0.3;
+//   z-index: 2;
+//   position: fixed;
+// }
+
+.container {
+  z-index: 3;
+  opacity: 1;
+  // position: relative;
+  .actions {
+    @include flex-column(start, space-between);
+    position: absolute;
+    top: 7.5rem;
+    right: 1rem;
+    background-color: var(--action);
+    box-shadow: 0rem 2px 0.5rem 0rem #3e588b;
+    width: 19.2rem;
+    height: 9.4rem;
+    padding: 1.6rem;
+    border-radius: 0.8rem;
+
+    button {
+      background: none;
+      border: none;
+      width: 16rem;
+      text-align: left;
+      @extend .small;
+      font-weight: bold;
+
+      &.edit {
+        color: $medium-grey;
+      }
+      &.delete {
+        color: $red;
+      }
+    }
+  }
+}
