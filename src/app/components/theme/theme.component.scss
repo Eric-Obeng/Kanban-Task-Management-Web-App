@@ -67,17 +67,6 @@
       }
     }
   }
-
-  .hide-sidebar {
-    display: none;
-    width: 100%;
-  }
 }
 
-@include breakpoints.mq(tablet) {
-  .container {
-    & .hide-sidebar {
-      @include flex-row(start, start, 2rem);
-    }
-  }
-}
+
