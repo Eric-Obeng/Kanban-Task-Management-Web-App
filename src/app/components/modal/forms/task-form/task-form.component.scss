@@ -1,0 +1,13 @@
+@use "../../../../../styleSheet/breakpoints";
+@import "../../../../../styleSheet/mixins";
+@import "../../../../../styleSheet/variables";
+@import "../../../../../styleSheet/typography";
+@import "../../../../../styleSheet/utils";
+
+.container {
+  @extend .transparent-bg;
+}
+
+.task-form {
+  @extend .modal;
+}
