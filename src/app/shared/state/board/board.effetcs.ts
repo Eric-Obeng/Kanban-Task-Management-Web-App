@@ -3,7 +3,6 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ApiService } from '../../services/api.service';
 import * as BoardActions from './board.actions';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
-import { IBoardData } from '../../../interfaces/board-data';
 import { IBoard } from '../../../interfaces/board';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -15,28 +14,28 @@ export class BoardEffects {
     this.actions$.pipe(
       ofType(BoardActions.loadBoards),
       mergeMap(() => {
-        const saveLocalStorage = localStorage.getItem('boards');
+        const savedLocalStorage = localStorage.getItem('boards');
 
-        if (saveLocalStorage) {
-          const boards: IBoard[] = JSON.parse(saveLocalStorage);
-          // const boardsWithId = boards.map((board) => ({
-          //   ...board,
-          //   id: board.id || uuidv4(),
-          // }));
+        if (savedLocalStorage) {
+          const boards: IBoard[] = JSON.parse(savedLocalStorage);
           return of(BoardActions.loadBoardsSuccess({ boards }));
         } else {
-          // Fetch boards from the API
+          // Fetch boards from the API if not found in localStorage
           return this.apiService.getAllBoards().pipe(
             map((response) => {
               const boards: IBoard[] = response.boards.map((board) => ({
                 ...board,
                 id: uuidv4(),
               }));
-              tap((boards: IBoard) => {
-                localStorage.setItem('board', JSON.stringify(boards));
-              });
-              return BoardActions.loadBoardsSuccess({ boards });
+              return boards;
             }),
+            tap((boards: IBoard[]) => {
+              // Save the boards to localStorage
+              localStorage.setItem('boards', JSON.stringify(boards));
+            }),
+            map((boards: IBoard[]) =>
+              BoardActions.loadBoardsSuccess({ boards })
+            ),
             catchError((error) =>
               of(BoardActions.loadBoardsFailure({ error: error.message }))
             )

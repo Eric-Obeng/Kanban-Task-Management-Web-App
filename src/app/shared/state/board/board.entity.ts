@@ -4,6 +4,8 @@ import { IBoard } from '../../../interfaces/board';
 export interface BoardState extends EntityState<IBoard> {
   selectedBoardId: string;
   selectedBoard: IBoard | null;
+  loading: boolean;
+  error: string | null;
 }
 
 export const boardAdapter: EntityAdapter<IBoard> = createEntityAdapter<IBoard>({
@@ -14,4 +16,6 @@ export const boardAdapter: EntityAdapter<IBoard> = createEntityAdapter<IBoard>({
 export const initialBoardState: BoardState = boardAdapter.getInitialState({
   selectedBoardId: '',
   selectedBoard: null,
+  loading: false,
+  error: null,
 });
