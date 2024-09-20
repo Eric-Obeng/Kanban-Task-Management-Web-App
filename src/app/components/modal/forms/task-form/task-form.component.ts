@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import { addTask } from '../../../../shared/state/board/board.actions';
 import { selectSelectedBoard } from '../../../../shared/state/board/board.selectors';
 import { CommonModule } from '@angular/common';
+import { ITask } from '../../../../interfaces/task';
 
 @Component({
   selector: 'app-task-form',
@@ -27,19 +28,20 @@ export class TaskFormComponent {
   currentBoardId!: string;
   private boardSubscription!: Subscription;
 
-  @Input() board: IBoard | null | undefined;
+  @Input() task!: ITask
   @Output() close = new EventEmitter<void>();
   @Output() hideMenu = new EventEmitter<void>();
 
   onHideMenu(event: MouseEvent) {
     if (event) {
       const clickedInsideForm = (event.target as HTMLElement).closest(
-        '.board-form'
+        '.board-task'
       );
       if (!clickedInsideForm) {
         this.close.emit();
       }
     }
+    console.log('hide me');
   }
 
   constructor(private fb: FormBuilder, private store: Store) {

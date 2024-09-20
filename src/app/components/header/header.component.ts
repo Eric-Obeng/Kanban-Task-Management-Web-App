@@ -52,13 +52,14 @@ export class HeaderComponent {
     this.showBoardForm = false;
   }
 
-  openBoardForm() {
+  openForm() {
     this.showBoardForm = true;
     this.showMenuModal = false;
   }
 
-  closeBoardForm() {
+  closeForm() {
     this.showBoardForm = false;
+    this.showTaskForm = false;
   }
 
   onShowTaskForm() {

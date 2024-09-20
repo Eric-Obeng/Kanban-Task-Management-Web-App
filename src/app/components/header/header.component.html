@@ -44,7 +44,7 @@
         <span class="add-icon-large">+Add New Task</span>
       </button>
       <div class="actions">
-        <app-actions [actionType]="'board'" (editAction)="openBoardForm()" />
+        <app-actions [actionType]="'board'" (editAction)="openForm()" />
       </div>
     </div>
   </div>
@@ -52,13 +52,13 @@
 
 <app-board-form
   *ngIf="showBoardForm"
-  (close)="closeBoardForm()"
+  (close)="closeForm()"
   (hideMenu)="onHideMenuModal()"
 />
 
-<app-task-form *ngIf="showTaskForm" />
+<app-task-form (close)="closeForm()" *ngIf="showTaskForm" />
 <app-menu-mobile
   *ngIf="showMenuModal"
   (hideMenu)="onHideMenuModal()"
-  (createBoardClicked)="openBoardForm()"
+  (createBoardClicked)="openForm()"
 />

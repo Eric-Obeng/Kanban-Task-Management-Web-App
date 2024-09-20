@@ -1,6 +1,6 @@
 <div class="container" (click)="onHideMenu($event)" *ngIf="hideMenu"></div>
 
-<div class="task-form">
+<div class="task-form" (click)="$event.stopPropagation()">
   <h3>Add New Task</h3>
 
   <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">

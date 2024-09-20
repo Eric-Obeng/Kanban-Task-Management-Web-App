@@ -3,8 +3,13 @@ import { ThemeComponent } from '../theme/theme.component';
 import { CommonModule } from '@angular/common';
 import { BoardService } from '../../shared/services/board.service';
 import { Store } from '@ngrx/store';
-import { setSelectedBoard } from '../../shared/state/board/board.actions';
+import {
+  selectBoard,
+  setSelectedBoard,
+} from '../../shared/state/board/board.actions';
 import { IBoard } from '../../interfaces/board';
+import { Observable } from 'rxjs';
+import { selectSelectedBoard } from '../../shared/state/board/board.selectors';
 
 @Component({
   selector: 'app-menu-mobile',
@@ -16,13 +21,16 @@ import { IBoard } from '../../interfaces/board';
 export class MenuMobileComponent {
   boards = this.boardService.boards$;
   totalBoards = this.boardService.totalBoards$;
+  selectedBoard$!: Observable<IBoard | undefined | null>;
 
   @Output() hideMenu = new EventEmitter<void>();
   @Input() showSideBar!: boolean;
 
   @Output() createBoardClicked = new EventEmitter<void>();
 
-  constructor(private boardService: BoardService, private store: Store) {}
+  constructor(private boardService: BoardService, private store: Store) {
+    this.selectedBoard$ = this.store.select(selectSelectedBoard);
+  }
 
   onHideMenu() {
     this.hideMenu.emit();

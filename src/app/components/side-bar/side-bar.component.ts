@@ -21,6 +21,7 @@ import {
 export class SideBarComponent {
   boards = this.boardService.boards$;
   totalBoards = this.boardService.totalBoards$;
+  selectedBoard$ = this.store.select(selectSelectedBoard);
 
   showSidebar: boolean = true;
 
