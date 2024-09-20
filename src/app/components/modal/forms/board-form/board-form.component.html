@@ -1,1 +1,30 @@
-<p>board-form works!</p>
+<div class="container" (click)="onHideMenu($event)" *ngIf="hideMenu"></div>
+
+<div class="board-form" (click)="$event.stopPropagation()">
+  <h3>{{ board ? "Edit Board" : "Create New Board" }}</h3>
+
+  <form [formGroup]="boardForm" (ngSubmit)="onSubmit()">
+    <label for="name">Board Name</label>
+    <input
+      type="text"
+      name="name"
+      formControlName="name"
+      placeholder="eg. Web Design"
+    />
+
+    <div formArrayName="columns">
+      <h4>Board Columns</h4>
+
+      @for (column of columns.controls; track $index) {
+      <input type="text" formControlName="{{ $index }}" />
+      <button (click)="removeColumn($index)" class="remove">X</button>
+      }
+
+      <button (click)="addColumn()">+Add New Column</button>
+    </div>
+
+    <button type="submit">
+      {{ board ? "Save Changes" : "Create New Board" }}
+    </button>
+  </form>
+</div>
