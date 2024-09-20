@@ -15,6 +15,12 @@
         <p>
           {{ board.name }}
         </p>
+        <span>
+          <img
+            src="../../../assets/images/icon-chevron-down.svg"
+            alt="icon chevron down"
+          />
+        </span>
         }@else {
         <p>No Board Selected</p>
 
@@ -46,13 +52,13 @@
 
 <app-board-form
   *ngIf="showBoardForm"
-  [board]="selectedBoard"
   (close)="closeBoardForm()"
   (hideMenu)="onHideMenuModal()"
 />
 
-<app-task-form *ngIf="showTaskForm">
-  @if (showMenuModal) {
-  <app-menu-mobile (hideMenu)="onHideMenuModal()" />
-  }
-</app-task-form>
+<app-task-form *ngIf="showTaskForm" />
+<app-menu-mobile
+  *ngIf="showMenuModal"
+  (hideMenu)="onHideMenuModal()"
+  (createBoardClicked)="openBoardForm()"
+/>

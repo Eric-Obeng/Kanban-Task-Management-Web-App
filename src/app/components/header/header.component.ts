@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { ActionsComponent } from '../modal/actions/actions.component';
 import { BoardComponent } from '../board/board.component';
 import { BoardFormComponent } from '../modal/forms/board-form/board-form.component';
-import { TaskFormComponent } from "../modal/forms/task-form/task-form.component";
+import { TaskFormComponent } from '../modal/forms/task-form/task-form.component';
 // import { selectSelectedBoard } from '../../shared/state/board/board.selectors';
 
 @Component({
@@ -20,8 +20,8 @@ import { TaskFormComponent } from "../modal/forms/task-form/task-form.component"
     CommonModule,
     ActionsComponent,
     BoardFormComponent,
-    TaskFormComponent
-],
+    TaskFormComponent,
+  ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -44,7 +44,8 @@ export class HeaderComponent {
   }
 
   onShowMenuModal() {
-    this.showMenuModal = !this.showMenuModal;
+    this.showMenuModal = true;
+    console.log(this.showMenuModal);
   }
   onHideMenuModal() {
     this.showMenuModal = false;
@@ -53,10 +54,11 @@ export class HeaderComponent {
 
   openBoardForm() {
     this.showBoardForm = true;
+    this.showMenuModal = false;
   }
 
   closeBoardForm() {
-    this.showBoardForm = false; // Set to false to close the form
+    this.showBoardForm = false;
   }
 
   onShowTaskForm() {
