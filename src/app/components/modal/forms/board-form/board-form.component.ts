@@ -1,26 +1,28 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
-import * as BoardAsctions from '../../../../shared/state/board/board.actions';
+import * as BoardActions from '../../../../shared/state/board/board.actions';
 import { IBoard } from '../../../../interfaces/board';
 import { Subscription } from 'rxjs';
 import { selectNextId } from '../../../../shared/state/board/board.selectors';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-board-form',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './board-form.component.html',
-  styleUrl: './board-form.component.scss',
+  styleUrls: ['./board-form.component.scss'],
 })
-export class BoardFormComponent {
+export class BoardFormComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
   boardForm: FormGroup;
   nextId!: string;
@@ -29,46 +31,54 @@ export class BoardFormComponent {
 
   @Output() hideMenu = new EventEmitter<void>();
 
-  onHideMenu(event: MouseEvent) {
-    if (event) {
-      const clickedInsideForm = (event.target as HTMLElement).closest(
-        '.board-form'
-      );
-      if (!clickedInsideForm) {
-        this.close.emit();
-      }
-    }
-  }
-
   constructor(private fb: FormBuilder, private store: Store) {
-    this.boardForm = this.fb.group({
-      name: ['', Validators.required],
-      columns: this.fb.array([]),
-    });
+    this.boardForm = this.createForm();
     this.nextIdSubscription = this.store
       .select(selectNextId)
       .subscribe((id) => (this.nextId = id));
   }
 
-  ngOnChanges(simpleChanges: any) {
-    if (simpleChanges.board && this.board) {
+  ngOnInit() {
+    // Ensure the form initializes correctly
+    if (this.board) {
       this.initForm();
     }
   }
 
-  initializeColumns() {
+  private createForm(): FormGroup {
+    return this.fb.group({
+      name: ['', Validators.required],
+      columns: this.fb.array([]),
+    });
+  }
+
+  onHideMenu(event: MouseEvent) {
+    const clickedInsideForm = (event.target as HTMLElement).closest(
+      '.board-form'
+    );
+    if (!clickedInsideForm) {
+      this.close.emit();
+    }
+  }
+
+  initializeColumns(): FormControl<string | null>[] {
     const columns = this.board?.columns || [];
-    const columnFormControls = columns.map((column) =>
+    return columns.map((column) =>
       this.fb.control(column.name, Validators.required)
     );
-    return columnFormControls;
   }
 
   initForm() {
-    this.boardForm = this.fb.group({
-      name: [this.board?.name || '', Validators.required],
-      columns: this.fb.array(this.initializeColumns()),
+    this.boardForm.patchValue({
+      name: this.board?.name || '',
     });
+    this.columns.clear(); // Clear previous columns
+
+    // Add each initialized column to the FormArray
+    const initializedColumns = this.initializeColumns();
+    for (const control of initializedColumns) {
+      this.columns.push(control);
+    }
   }
 
   get columns() {
@@ -76,39 +86,39 @@ export class BoardFormComponent {
   }
 
   addColumn() {
-    console.log('Adding column');
     this.columns.push(this.fb.control('', Validators.required));
   }
 
   removeColumn(index: number) {
-    console.log(`Removing column at index ${index}`);
     this.columns.removeAt(index);
   }
 
   onSubmit() {
     if (this.boardForm.valid) {
-      const newColumns = this.columns.value.map(
-        (columnName: string, index: number) => {
-          const existingTasks = this.board?.columns[index]?.tasks || [];
-          return { name: columnName, tasks: existingTasks };
-        }
-      );
+      const newColumns = this.columns.value.map((columnName: string) => ({
+        name: columnName,
+        tasks: [], // Initialize tasks as needed
+      }));
 
-      const newBoard = {
-        id: this.board ? this.board.id : this.nextId.toString(),
+      const newBoard: IBoard = {
+        id: this.board ? this.board.id : uuidv4(),
         name: this.boardForm.value.name,
         columns: newColumns,
       };
 
       if (this.board) {
-        this.store.dispatch(BoardAsctions.updateBoard({ board: newBoard }));
+        this.store.dispatch(BoardActions.updateBoard({ board: newBoard }));
       } else {
-        this.store.dispatch(BoardAsctions.addBoard({ board: newBoard }));
+        this.store.dispatch(BoardActions.addBoard({ board: newBoard }));
       }
 
-      this.boardForm.get('name')?.reset();
+      // Reset the form for new board creation
+      this.boardForm.reset();
+      this.columns.clear(); // Clear columns if needed
+
+      // Emit close to notify parent component
+      this.close.emit();
     }
-    // this.close.emit();
   }
 
   onCancel() {
