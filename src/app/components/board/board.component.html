@@ -9,5 +9,9 @@
     </ul>
   </div>
   }
-  <button class="add-column">+ New Column</button>
+  <button class="add-column" (click)="onCreateBoard()">+ New Column</button>
 </div>
+
+@if(showBoardForm) {
+<app-board-form [board]="boards$ | async" (close)="closeBoardForm()" />
+}

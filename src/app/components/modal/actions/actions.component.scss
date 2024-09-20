@@ -1,6 +1,7 @@
 @import "../../../../styleSheet/mixins";
 @import "../../../../styleSheet/variables";
 @import "../../../../styleSheet/typography";
+@import "../../../../styleSheet/utils";
 
 // .action-bg {
 //   position: absolute;
@@ -15,8 +16,8 @@
 // }
 
 .container {
-  z-index: 3;
   opacity: 1;
+  cursor: pointer;
   // position: relative;
   .actions {
     @include flex-column(start, space-between);
@@ -29,6 +30,7 @@
     height: 9.4rem;
     padding: 1.6rem;
     border-radius: 0.8rem;
+    z-index: 10;
 
     button {
       background: none;

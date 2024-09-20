@@ -1,4 +1,4 @@
-<div class="action-bg" ></div>
+<div class="action-bg"></div>
 
 <div class="container">
   <span (click)="onshowActions()">
@@ -10,11 +10,13 @@
       </g>
     </svg>
   </span>
-  @if (showActions) {
 
-  <div class="actions">
-    <button class="edit">Edit Board</button>
-    <button class="delete">Delete Board</button>
+  <div class="actions" *ngIf="showActions">
+    <button class="edit" (click)="onEdit()">
+      {{ actionType === "board" ? "Edit Board" : "Edit Task" }}
+    </button>
+    <button class="delete" (click)="onDelete()">
+      {{ actionType === "board" ? "Delete Board" : "Delete Task" }}
+    </button>
   </div>
-  }
 </div>

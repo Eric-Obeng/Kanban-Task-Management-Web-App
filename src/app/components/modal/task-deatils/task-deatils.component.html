@@ -5,7 +5,7 @@
       {{ task.title }}
     </p>
     <div class="actions">
-      <app-actions />
+      <app-actions [actionType]="'task'" />
     </div>
   </div>
   <div>
@@ -13,5 +13,17 @@
       {{ task.description }}
     </p>
   </div>
-  <div></div>
+  <ul>
+    <p>Subtasks ( 1 of {{ task.subtasks.length }})</p>
+    @for (subTask of task.subtasks; track $index) {
+    <li>
+      <input type="checkbox" [checked]="subTask.isCompleted" />
+      {{ subTask.title }}
+    </li>
+    }
+  </ul>
+
+  <!-- <select>
+    @for (status of statuses; track $index) {}
+  </select> -->
 </div>

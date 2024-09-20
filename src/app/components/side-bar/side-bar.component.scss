@@ -20,49 +20,68 @@
     top: 10%;
     left: 50%;
     transform: translate(-50%);
+    padding-bottom: 2.4rem;
 
-    .boards {
-      padding: 2.4rem 2.4rem 0px 2.4rem;
-      color: $medium-grey;
-    }
+    .board-container {
+      @include flex-column(start, start, 1.9rem);
 
-    .all-boards {
-      @include flex-column(start, start, 0.5rem);
-      .row {
-        height: 4.8rem;
-        width: 24rem;
-        display: block;
-        @include flex-row(center, start, 1.9rem);
-        padding: 1rem 2.4rem;
+      .boards {
+        padding: 2.4rem 2.4rem 0px 2.4rem;
         color: $medium-grey;
-        border-radius: 0 10rem 10rem 0;
+      }
 
-        &:link {
-          text-decoration: none;
-        }
+      .all-boards {
+        @include flex-column(start, start, 0.5rem);
 
-        &:hover {
-          color: $white;
-          background-color: $main-purple-hover;
-        }
+        .row {
+          height: 4.8rem;
+          width: 24rem;
+          display: block;
+          @include flex-row(center, start, 1.9rem);
+          padding: 1rem 2.4rem;
+          color: $medium-grey;
+          border-radius: 0 10rem 10rem 0;
+          cursor: pointer;
 
-        &:focus-within {
-          color: $white;
-          background-color: $main-purple;
-        }
-
-        &.create {
-          width: 100%;
-          color: $main-purple;
+          &:link {
+            text-decoration: none;
+          }
 
           &:hover {
-            background: $main-purple-hover;
             color: $white;
+            background-color: $main-purple-hover;
+
+            svg {
+              fill: $main-purple;
+            }
           }
 
           &:focus-within {
-            background: $main-purple;
             color: $white;
+            background-color: $main-purple;
+
+            svg {
+              fill: $white;
+            }
+          }
+
+          svg {
+            fill: $medium-grey;
+          }
+
+          &.create {
+            width: 100%;
+            color: $main-purple;
+
+            &:hover {
+              background: $main-purple-hover;
+              color: $white;
+            }
+
+            &:focus-within {
+              background: $main-purple;
+              color: $white;
+            }
           }
         }
       }
@@ -70,15 +89,38 @@
 
     .theme {
       width: 100%;
-      padding: 0 2.4rem 2.4rem 2.4rem;
       @include flex-column(start, start, 2rem);
 
       .theme-div {
         width: 100%;
+        padding: 0 2.4rem 1rem 2.4rem;
       }
 
       .hide-sidebar {
         @include flex-row(center, start, 2rem);
+        width: 24rem;
+        padding-left: 2.4rem;
+        height: 4.8rem;
+        border-radius: 0 10rem 10rem 0;
+        color: $medium-grey;
+        cursor: pointer;
+
+        span {
+          svg {
+            fill: $medium-grey;
+          }
+        }
+
+        &:hover {
+          color: $main-purple;
+          background-color: $main-purple-hover;
+
+          span {
+            svg {
+              fill: $main-purple;
+            }
+          }
+        }
       }
     }
   }
@@ -90,6 +132,8 @@
   bottom: 5px;
   padding: 0.8rem 1.175rem;
   border-radius: 0 6.25rem 6.25rem 0;
+  width: 5.6rem;
+  cursor: pointer;
 
   &:hover {
     background-color: $main-purple-hover;

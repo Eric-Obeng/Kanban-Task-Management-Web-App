@@ -7,6 +7,8 @@ import { Store } from '@ngrx/store';
 import { ApiService } from './shared/services/api.service';
 import { loadBoards } from './shared/state/board/board.actions';
 import { loadTheme } from './shared/state/theme/theme.actions';
+import { CommonModule } from '@angular/common';
+import { BoardFormComponent } from "./components/modal/forms/board-form/board-form.component";
 
 @Component({
   selector: 'app-root',
@@ -16,12 +18,23 @@ import { loadTheme } from './shared/state/theme/theme.actions';
     HeaderComponent,
     MenuMobileComponent,
     SideBarComponent,
-  ],
+    CommonModule,
+    BoardFormComponent
+],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'Kanban-Task-Managment-Web-App';
+  showBoardForm: boolean = false;
+
+  onCreateBoard() {
+    this.showBoardForm = true;
+  }
+
+  closeBoardForm() {
+    this.showBoardForm = false;
+  }
 
   constructor(private store: Store, private apiService: ApiService) {}
 
