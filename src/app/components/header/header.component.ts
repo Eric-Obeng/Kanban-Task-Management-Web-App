@@ -1,32 +1,67 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../../shared/services/api.service';
 import { MenuMobileComponent } from '../menu-mobile/menu-mobile.component';
+import { Observable } from 'rxjs';
+import { IBoard } from '../../interfaces/board';
+import { Store } from '@ngrx/store';
+import { selectSelectedBoard } from '../../shared/state/board/board.selectors';
+import { CommonModule } from '@angular/common';
+import { ActionsComponent } from '../modal/actions/actions.component';
+import { BoardComponent } from '../board/board.component';
+import { BoardFormComponent } from '../modal/forms/board-form/board-form.component';
+import { TaskFormComponent } from '../modal/forms/task-form/task-form.component';
+// import { selectSelectedBoard } from '../../shared/state/board/board.selectors';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MenuMobileComponent],
+  imports: [
+    MenuMobileComponent,
+    CommonModule,
+    ActionsComponent,
+    BoardFormComponent,
+    TaskFormComponent,
+  ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  showMenuModal: boolean = false;
+  selectedBoards$!: Observable<IBoard | null | undefined>;
+  selectedBoard: IBoard | null | undefined;
 
-  constructor(private apiServie: ApiService) {}
+  showMenuModal: boolean = false;
+  showBoardForm = false;
+  showTaskForm = false;
+
+  constructor(private apiServie: ApiService, private store: Store) {
+    this.selectedBoards$ = this.store.select(selectSelectedBoard);
+  }
 
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-
-    this.apiServie.getAllBoards().subscribe({
-      next: (val) => console.log(val),
+    this.selectedBoards$.subscribe((board) => {
+      this.selectedBoard = board;
     });
   }
 
   onShowMenuModal() {
-    this.showMenuModal = !this.showMenuModal;
+    this.showMenuModal = true;
+    console.log(this.showMenuModal);
   }
   onHideMenuModal() {
     this.showMenuModal = false;
+    this.showBoardForm = false;
+  }
+
+  openBoardForm() {
+    this.showBoardForm = true;
+    this.showMenuModal = false;
+  }
+
+  closeBoardForm() {
+    this.showBoardForm = false;
+  }
+
+  onShowTaskForm() {
+    this.showTaskForm = true;
   }
 }

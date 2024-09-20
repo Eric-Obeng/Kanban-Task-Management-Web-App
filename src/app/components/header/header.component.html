@@ -11,17 +11,30 @@
         <img src="../../../assets/images/logo-mobile.svg" alt="logo icon" />
       </div>
       <div class="column-name" (click)="onShowMenuModal()">
-        <p>Platform Launch</p>
+        @if (selectedBoards$ | async; as board) {
+        <p>
+          {{ board.name }}
+        </p>
         <span>
           <img
             src="../../../assets/images/icon-chevron-down.svg"
             alt="icon chevron down"
           />
         </span>
+        }@else {
+        <p>No Board Selected</p>
+
+        <span>
+          <img
+            src="../../../assets/images/icon-chevron-down.svg"
+            alt="icon chevron down"
+          />
+        </span>
+        }
       </div>
     </div>
     <div class="col-2">
-      <button class="add">
+      <button class="add" (click)="onShowTaskForm()">
         <span class="add-icon-mobile"
           ><img
             src="../../../assets/images/icon-add-task-mobile.svg"
@@ -30,15 +43,22 @@
 
         <span class="add-icon-large">+Add New Task</span>
       </button>
-      <button class="menu">
-        <span>
-          <img src="../../../assets/images/icon-vertical-ellipsis.svg" alt="" />
-        </span>
-      </button>
+      <div class="actions">
+        <app-actions [actionType]="'board'" (editAction)="openBoardForm()" />
+      </div>
     </div>
   </div>
 </div>
 
-@if (showMenuModal) {
-<app-menu-mobile (hideMenu)="onHideMenuModal()" />
-}
+<app-board-form
+  *ngIf="showBoardForm"
+  (close)="closeBoardForm()"
+  (hideMenu)="onHideMenuModal()"
+/>
+
+<app-task-form *ngIf="showTaskForm" />
+<app-menu-mobile
+  *ngIf="showMenuModal"
+  (hideMenu)="onHideMenuModal()"
+  (createBoardClicked)="openBoardForm()"
+/>

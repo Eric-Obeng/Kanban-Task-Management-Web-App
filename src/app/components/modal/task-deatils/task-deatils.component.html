@@ -1,0 +1,29 @@
+<div class="container" (click)="onHideMenu()"></div>
+<div class="task-detail-div" (click)="$event.stopPropagation()">
+  <div class="col-1">
+    <p class="task-title">
+      {{ task.title }}
+    </p>
+    <div class="actions">
+      <app-actions [actionType]="'task'" />
+    </div>
+  </div>
+  <div>
+    <p>
+      {{ task.description }}
+    </p>
+  </div>
+  <ul>
+    <p>Subtasks ( 1 of {{ task.subtasks.length }})</p>
+    @for (subTask of task.subtasks; track $index) {
+    <li>
+      <input type="checkbox" [checked]="subTask.isCompleted" />
+      {{ subTask.title }}
+    </li>
+    }
+  </ul>
+
+  <!-- <select>
+    @for (status of statuses; track $index) {}
+  </select> -->
+</div>

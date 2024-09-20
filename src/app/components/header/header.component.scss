@@ -2,12 +2,15 @@
 @import "../../../styleSheet/mixins";
 @import "../../../styleSheet/variables";
 @import "../../../styleSheet/typography";
+@import "../../../styleSheet/utils";
 
 .header {
   width: 100%;
   height: $heading-height;
   @include flex-row(center, start, 0px);
   background-color: var(--header-bg);
+  overflow-x: hidden;
+  z-index: 1;
 
   .logo-large {
     display: none;

@@ -1,7 +1,10 @@
 <div class="App">
   <app-header />
   <div class="main">
-    <app-side-bar />
+    <app-side-bar (createBoardClicked)="onCreateBoard()" />
+    <div *ngIf="showBoardForm">
+      <app-board-form (close)="closeBoardForm()"></app-board-form>
+    </div>
     <!-- <app-menu-mobile /> -->
     <div class="content">
       <router-outlet />

@@ -2,12 +2,21 @@
 @import "../styleSheet/mixins";
 
 .App {
+  overflow: hidden;
 }
 
 @include breakpoints.mq(tablet) {
   .App {
+    height: 100vh;
+    overflow: hidden;
+
     .main {
-      @include flex-row();
+      @include flex-row(start, start, 0rem);
+
+      .content {
+        overflow: auto;
+        width: 100%;
+      }
     }
   }
 }

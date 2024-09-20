@@ -1,0 +1,55 @@
+@use "../../../../../styleSheet/breakpoints";
+@import "../../../../../styleSheet/mixins";
+@import "../../../../../styleSheet/variables";
+@import "../../../../../styleSheet/typography";
+@import "../../../../../styleSheet/utils";
+
+.container {
+  @extend .transparent-bg;
+}
+
+.board-form {
+  @extend .modal;
+
+  form {
+    @include flex-column(start, start, 2.4rem);
+    width: 100%;
+
+    .board-name {
+      width: 100%;
+      @include flex-column(start, start, 1rem);
+
+      input {
+        @extend .input;
+      }
+    }
+
+    .board-column {
+      width: 100%;
+      @include flex-column(start, start, 1rem);
+
+      .column {
+        @include flex-row(center, space-between, 1rem);
+        width: 100%;
+
+        input {
+          @extend .input;
+        }
+
+        button {
+          background: none;
+          border: none;
+          @extend .medium;
+        }
+      }
+
+      .add {
+        @extend .add-button;
+      }
+    }
+
+    .create {
+      @extend .create-button;
+    }
+  }
+}

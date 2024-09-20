@@ -1,0 +1,73 @@
+<div class="container" (click)="onHideMenu($event)" *ngIf="hideMenu"></div>
+
+<div class="task-form">
+  <h3>Add New Task</h3>
+
+  <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+    <div class="form-group title">
+      <label for="title">Title</label>
+      <input
+        type="text"
+        formControlName="title"
+        placeholder="eg. Take coffee break"
+      />
+    </div>
+
+    <div class="form-group desc">
+      <label for="description">Description</label>
+      <textarea
+        rows="5"
+        cols="30"
+        formControlName="description"
+        placeholder="e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little."
+      ></textarea>
+    </div>
+
+    <div formArrayName="subtasks" class="subtasks">
+      <h4>Subtasks</h4>
+      <div class="subtasks-list">
+        @for (subtask of subtasks.controls; track $index) { @if ($index === 0) {
+        <div class="subtask-action">
+          <input
+            type="text"
+            formControlName="{{ $index }}"
+            placeholder="eg. Make coffee"
+          />
+          <button (click)="removeSubtask($index)" class="remove">x</button>
+        </div>
+
+        } @else if ($index === 1) {
+        <div class="subtask-action">
+          <input
+            type="text"
+            formControlName="{{ $index }}"
+            placeholder="eg. Drink coffe & smile"
+          />
+          <button (click)="removeSubtask($index)" class="remove">x</button>
+        </div>
+
+        } @else {
+        <div class="subtask-action">
+          <input type="text" formControlName="{{ $index }}" />
+          <button (click)="removeSubtask($index)" class="remove">x</button>
+        </div>
+
+        } }
+      </div>
+
+      <button class="add" (click)="addSubtask()">+Add New Subtask</button>
+    </div>
+
+    <div class="statuses">
+      <p>Status</p>
+      <select name="status" formControlName="status">
+        <option>Select Status</option>
+        @for (status of statuses; track $index) {
+        <option [value]="status">{{ status }}</option>
+        }
+      </select>
+    </div>
+
+    <button class="create" type="submit">Create Task</button>
+  </form>
+</div>
