@@ -20,14 +20,21 @@ export class MenuMobileComponent {
   @Output() hideMenu = new EventEmitter<void>();
   @Input() showSideBar!: boolean;
 
+  @Output() createBoardClicked = new EventEmitter<void>();
+
   constructor(private boardService: BoardService, private store: Store) {}
 
   onHideMenu() {
     this.hideMenu.emit();
   }
 
-  onBoardClicK(board: IBoard) {
+  onBoardClick(board: IBoard) {
     this.store.dispatch(setSelectedBoard({ board }));
+    localStorage.setItem('selectedBoard', JSON.stringify(board)); // Save to local storage
     console.log(board);
+  }
+
+  onCreateNewBoard() {
+    this.createBoardClicked.emit();
   }
 }
