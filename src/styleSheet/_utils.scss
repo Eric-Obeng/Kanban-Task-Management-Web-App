@@ -24,3 +24,36 @@
   transform: translate(-50%);
   padding: 2.4rem;
 }
+
+.add-button {
+  width: 100%;
+  border-radius: 2rem;
+  background-color: var(--button-add);
+  height: 4rem;
+  color: $main-purple;
+  border: none;
+  @extend .medium;
+  font-size: bold;
+  cursor: pointer;
+}
+
+.create-button {
+  width: 100%;
+  height: 4rem;
+  border: none;
+  border-radius: 2rem;
+  background: var(--button-create);
+  color: $white;
+  cursor: pointer;
+  @extend .medium;
+}
+
+.input {
+  width: 100%;
+  height: 4rem;
+  padding: 0.8rem 1.6rem;
+  border-radius: 0.4rem;
+  border: 0.1rem solid $medium-grey;
+  background: none;
+  color: var(--text-clr);
+}

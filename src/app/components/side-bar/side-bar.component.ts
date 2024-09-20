@@ -28,8 +28,9 @@ export class SideBarComponent {
 
   constructor(private boardService: BoardService, private store: Store) {}
 
-  onBoardClicK(board: IBoard) {
+  onBoardClick(board: IBoard) {
     this.store.dispatch(setSelectedBoard({ board }));
+    localStorage.setItem('selectedBoard', JSON.stringify(board)); // Save to local storage
     console.log(board);
   }
 

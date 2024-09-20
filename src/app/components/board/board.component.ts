@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { IBoard } from '../../interfaces/board';
@@ -18,13 +18,20 @@ import { BoardFormComponent } from '../modal/forms/board-form/board-form.compone
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss'],
 })
-export class BoardComponent {
+export class BoardComponent implements OnInit {
   boards$: Observable<IBoard | null | undefined>;
-  selectedBoardId$: Observable<string>;
 
   @Output() createNewColumnClicked = new EventEmitter<void>();
 
   showBoardForm: boolean = false;
+
+  constructor(private store: Store) {
+    this.boards$ = this.store.select(selectSelectedBoard);
+  }
+
+  ngOnInit(): void {
+    this.store.dispatch(BoardActions.loadBoards()); 
+  }
 
   onCreateBoard() {
     this.showBoardForm = true;
@@ -32,11 +39,6 @@ export class BoardComponent {
 
   closeBoardForm() {
     this.showBoardForm = false;
-  }
-
-  constructor(private store: Store) {
-    this.boards$ = this.store.select(selectSelectedBoard);
-    this.selectedBoardId$ = this.store.select(selectSelectedBoardId);
   }
 
   onSelectBoard(boardId: string) {
