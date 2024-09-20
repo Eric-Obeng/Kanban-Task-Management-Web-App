@@ -28,13 +28,18 @@ export const deleteBoard = createAction(
 
 // column actions
 export const addColumn = createAction(
-  '[Board] Add Column',
+  '[Column] Add Column',
   props<{ boardId: string; column: IColumn }>()
 );
 
 export const updateColumn = createAction(
-  '[Board] Add Column',
+  '[Column] Add Column',
   props<{ boardId: string; column: IColumn }>()
+);
+
+export const deleteColumn = createAction(
+  '[Column] Delete Column',
+  props<{ boardId: string; columnName: string }>()
 );
 
 export const selectBoard = createAction(
@@ -52,6 +57,7 @@ export const moveTaskInColumn = createAction(
   props<{ columnId: string; previousIndex: number; currentIndex: number }>()
 );
 
+// task actions
 export const addTask = createAction(
   '[Board] Add Task',
   props<{
@@ -64,7 +70,7 @@ export const addTask = createAction(
 export const updateTask = createAction(
   '[Task] Update Task',
   props<{
-    boardId: number;
+    boardId: string;
     columnName: string;
     task: ITask;
   }>()
