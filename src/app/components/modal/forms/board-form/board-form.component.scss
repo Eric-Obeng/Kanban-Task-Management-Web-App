@@ -34,6 +34,11 @@
 
         input {
           @extend .input;
+
+          &.marked-for-deletion {
+            text-decoration: line-through;
+            opacity: 0.5;
+          }
         }
 
         button {

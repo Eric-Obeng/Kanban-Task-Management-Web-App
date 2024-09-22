@@ -17,14 +17,24 @@
     <div formArrayName="columns" class="board-column">
       <h4>Board Columns</h4>
 
-      @for (column of columns.controls; track $index) {
-      <div class="column">
-        <input type="text" formControlName="{{ $index }}" />
-        <button (click)="removeColumn($index)" class="remove">X</button>
+      <!-- Iterate over the columns and display them -->
+      <div
+        *ngFor="let column of columns.controls; let i = index"
+        class="column"
+      >
+        <input
+          type="text"
+          [formControlName]="i"
+          [class.marked-for-deletion]="isColumnMarkedForDeletion(i)"
+        />
+        <button type="button" (click)="removeColumn(i)" class="remove">
+          x
+        </button>
       </div>
-      }
 
-      <button class="add" (click)="addColumn()">+Add New Column</button>
+      <button type="button" class="add" (click)="addColumn()">
+        + Add New Column
+      </button>
     </div>
 
     <button class="create" type="submit">
