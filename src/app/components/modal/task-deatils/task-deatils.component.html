@@ -25,9 +25,11 @@
   </ul>
 
   <p>Current Status</p>
-  <select>
+  <select (change)="onStatusChange($event)">
     <ng-container *ngFor="let status of statuses; let i = index">
-      <option [value]="status">{{ status }}</option>
+      <option [value]="status" [selected]="status === task.status">
+        {{ status }}
+      </option>
     </ng-container>
   </select>
 </div>

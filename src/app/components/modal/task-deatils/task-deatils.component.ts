@@ -89,6 +89,22 @@ export class TaskDetailsComponent implements OnInit, OnChanges {
     this.cdr.detectChanges();
   }
 
+  onStatusChange(event: Event) {
+    const newStatus = (event.target as HTMLSelectElement).value;
+    if (newStatus !== this.task.status) {
+      this.store.dispatch(
+        BoardActions.moveTask({
+          boardId: this.boardId,
+          sourceColumn: this.task.status,
+          targetColumn: newStatus,
+          taskId: this.task.title,
+        })
+      );
+      const updatedTask = { ...this.task, status: newStatus };
+      this.taskChange.emit(updatedTask);
+    }
+  }
+
   openForm() {
     this.showTaskForm = true;
   }
