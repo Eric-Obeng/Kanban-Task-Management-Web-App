@@ -43,6 +43,15 @@
       color: $medium-grey;
       border-radius: 0 10rem 10rem 0;
 
+      &.active {
+        background-color: $main-purple;
+        color: $white;
+
+        svg {
+          fill: $white;
+        }
+      }
+
       &:link {
         text-decoration: none;
       }

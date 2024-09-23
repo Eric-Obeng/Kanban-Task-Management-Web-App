@@ -89,10 +89,20 @@ export const boardReducer = createReducer(
       columns: updatedColumns,
     };
 
-    return boardAdapter.updateOne(
+    const newState = boardAdapter.updateOne(
       { id: board.id, changes: updatedBoard },
       state
     );
+
+    // Update selectedBoard if it's the board we just modified
+    if (state.selectedBoard && state.selectedBoard.id === boardId) {
+      return {
+        ...newState,
+        selectedBoard: updatedBoard,
+      };
+    }
+
+    return newState;
   }),
   on(BoardActions.updateTask, (state, { boardId, columnName, task }) => {
     const board = state.entities[boardId];

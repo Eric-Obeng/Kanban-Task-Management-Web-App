@@ -31,7 +31,7 @@
       }
 
       .all-boards {
-        @include flex-column(start, start, 0.5rem);
+        @include flex-column(start, start, 0rem);
         max-height: 75%;
         overflow-y: auto;
         scrollbar-width: none;
@@ -46,6 +46,15 @@
           color: $medium-grey;
           border-radius: 0 10rem 10rem 0;
           cursor: pointer;
+
+          &.active {
+            background-color: $main-purple;
+            color: $white;
+
+            svg {
+              fill: $white;
+            }
+          }
 
           &:link {
             text-decoration: none;

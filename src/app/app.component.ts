@@ -8,7 +8,13 @@ import { ApiService } from './shared/services/api.service';
 import { loadBoards } from './shared/state/board/board.actions';
 import { loadTheme } from './shared/state/theme/theme.actions';
 import { CommonModule } from '@angular/common';
-import { BoardFormComponent } from "./components/modal/forms/board-form/board-form.component";
+import { BoardFormComponent } from './components/modal/forms/board-form/board-form.component';
+import {
+  selectAllBoards,
+  selectSelectedBoard,
+} from './shared/state/board/board.selectors';
+import { take } from 'rxjs';
+import { BoardService } from './shared/services/board.service';
 
 @Component({
   selector: 'app-root',
@@ -19,14 +25,16 @@ import { BoardFormComponent } from "./components/modal/forms/board-form/board-fo
     MenuMobileComponent,
     SideBarComponent,
     CommonModule,
-    BoardFormComponent
-],
+    BoardFormComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'Kanban-Task-Managment-Web-App';
   showBoardForm: boolean = false;
+  boards = selectAllBoards;
+  selectedBoard = selectSelectedBoard;
 
   onCreateBoard() {
     this.showBoardForm = true;
@@ -36,12 +44,15 @@ export class AppComponent {
     this.showBoardForm = false;
   }
 
-  constructor(private store: Store, private apiService: ApiService) {}
+  constructor(public store: Store, private dataService: BoardService) {
+    this.store.dispatch(loadBoards());
+  }
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.store.dispatch(loadBoards());
+
     this.store.dispatch(loadTheme());
+    this.store.select(this.boards).pipe(take(1));
   }
 }

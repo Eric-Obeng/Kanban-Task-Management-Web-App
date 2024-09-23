@@ -1,17 +1,27 @@
-<div *ngIf="boards$ | async as boards" class="container">
-  @for (column of boards.columns; track $index) {
-  <div class="column-items">
-    <p>{{ column.name }}</p>
+<div *ngIf="selectedBoard$ | async as selectedBoard" class="container">
+  <div
+    *ngFor="let column of selectedBoard.columns; let i = index"
+    class="column-items"
+  >
+    <div class="top">
+      <span
+        class="column-color"
+        [style.Background]="boardService.color[i]"
+      ></span>
+      <p>{{ column.name }} ({{ column.tasks.length }})</p>
+    </div>
+
     <ul class="tasks">
-      @for (task of column.tasks; track $index) {
-      <app-task-item [task]="task" />
-      }
+      <div *ngFor="let task of column.tasks; let j = index">
+        <app-task-item [task]="task"></app-task-item>
+      </div>
     </ul>
   </div>
-  }
-  <button class="add-column" (click)="onCreateBoard()">+ New Column</button>
+  <button class="add-column" (click)="onCreateNewColumn()">+ New Column</button>
 </div>
 
-@if(showBoardForm) {
-<app-board-form [board]="boards$ | async" (close)="closeBoardForm()" />
-}
+<app-board-form
+  *ngIf="showBoardForm"
+  [board]="selectedBoard$ | async"
+  (close)="closeBoardForm()"
+></app-board-form>

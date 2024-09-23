@@ -4,7 +4,7 @@
 @import "../../../styleSheet/typography";
 
 .container {
-  @include flex-row(start, start, 2rem);
+  @include flex-row(start, start, 2.5rem);
   overflow: auto;
   // padding: 2rem;
   width: 100%;
@@ -15,11 +15,24 @@
   height: calc(100vh - 8rem);
   padding: 2rem;
 
-
   .column-items {
     width: 28rem;
     @include flex-column(start, start, 2.4rem);
     flex-shrink: 0;
+
+    .top {
+      @include flex-row(center, start, 1rem);
+      flex-shrink: 0;
+
+      .column-color {
+        display: flex;
+        min-width: 15px;
+        height: 15px;
+        border-radius: 100%;
+        margin-right: 12px;
+      }
+    }
+
 
     .tasks {
       width: 100%;

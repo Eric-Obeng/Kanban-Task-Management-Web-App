@@ -11,9 +11,9 @@ import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
 import * as BoardActions from '../../../../shared/state/board/board.actions';
 import { IBoard } from '../../../../interfaces/board';
-import { Subscription } from 'rxjs';
-import { selectNextId } from '../../../../shared/state/board/board.selectors';
+import { IColumn } from '../../../../interfaces/column';
 import { v4 as uuidv4 } from 'uuid';
+import { BoardService } from '../../../../shared/services/board.service';
 
 @Component({
   selector: 'app-board-form',
@@ -23,23 +23,24 @@ import { v4 as uuidv4 } from 'uuid';
   styleUrls: ['./board-form.component.scss'],
 })
 export class BoardFormComponent implements OnInit {
-  @Output() close = new EventEmitter<void>();
+  @Output() close = new EventEmitter();
   boardForm: FormGroup;
-  nextId!: string;
-  private nextIdSubscription: Subscription;
+
   @Input() board: IBoard | null | undefined;
 
-  @Output() hideMenu = new EventEmitter<void>();
+  @Output() hideMenu = new EventEmitter();
 
-  constructor(private fb: FormBuilder, private store: Store) {
+  columnsMarkedForDeletion: Set<number> = new Set();
+
+  constructor(
+    private fb: FormBuilder,
+    private boardService: BoardService,
+    private store: Store
+  ) {
     this.boardForm = this.createForm();
-    this.nextIdSubscription = this.store
-      .select(selectNextId)
-      .subscribe((id) => (this.nextId = id));
   }
 
   ngOnInit() {
-    // Ensure the form initializes correctly
     if (this.board) {
       this.initForm();
     }
@@ -61,7 +62,7 @@ export class BoardFormComponent implements OnInit {
     }
   }
 
-  initializeColumns(): FormControl<string | null>[] {
+  initializeColumns(): FormControl[] {
     const columns = this.board?.columns || [];
     return columns.map((column) =>
       this.fb.control(column.name, Validators.required)
@@ -72,9 +73,7 @@ export class BoardFormComponent implements OnInit {
     this.boardForm.patchValue({
       name: this.board?.name || '',
     });
-    this.columns.clear(); // Clear previous columns
-
-    // Add each initialized column to the FormArray
+    this.columns.clear();
     const initializedColumns = this.initializeColumns();
     for (const control of initializedColumns) {
       this.columns.push(control);
@@ -90,33 +89,56 @@ export class BoardFormComponent implements OnInit {
   }
 
   removeColumn(index: number) {
-    this.columns.removeAt(index);
+    this.columnsMarkedForDeletion.add(index);
+  }
+
+  isColumnMarkedForDeletion(index: number): boolean {
+    return this.columnsMarkedForDeletion.has(index);
   }
 
   onSubmit() {
     if (this.boardForm.valid) {
-      const newColumns = this.columns.value.map((columnName: string) => ({
-        name: columnName,
-        tasks: [], // Initialize tasks as needed
-      }));
+      let newColumns: IColumn[] = [];
+      let tasksToRedistribute: any[] = [];
 
+      this.columns.controls.forEach((control, index) => {
+        // Only keep columns that are not marked for deletion
+        if (!this.isColumnMarkedForDeletion(index)) {
+          const columnName = control.value;
+          const existingColumn = this.board?.columns[index];
+          newColumns.push({
+            name: columnName,
+            tasks: existingColumn ? [...existingColumn.tasks] : [],
+          });
+        } else if (this.board?.columns[index]?.tasks?.length) {
+          // Collect tasks from deleted columns to redistribute
+          tasksToRedistribute.push(...this.board.columns[index].tasks);
+        }
+      });
+
+      // Redistribute tasks from deleted columns to the first column (if any)
+      if (tasksToRedistribute.length && newColumns.length) {
+        newColumns[0].tasks = [...newColumns[0].tasks, ...tasksToRedistribute];
+      }
+
+      // Create or update the board
       const newBoard: IBoard = {
         id: this.board ? this.board.id : uuidv4(),
         name: this.boardForm.value.name,
         columns: newColumns,
       };
 
+      // Update or add the board based on whether it's an existing board or a new one
       if (this.board) {
-        this.store.dispatch(BoardActions.updateBoard({ board: newBoard }));
+        this.boardService.updateBoard(newBoard);
       } else {
-        this.store.dispatch(BoardActions.addBoard({ board: newBoard }));
+        this.boardService.addBoard(newBoard);
       }
 
-      // Reset the form for new board creation
+      // Reset the form and clear marked columns after saving
       this.boardForm.reset();
-      this.columns.clear(); // Clear columns if needed
-
-      // Emit close to notify parent component
+      this.columns.clear();
+      this.columnsMarkedForDeletion.clear();
       this.close.emit();
     }
   }

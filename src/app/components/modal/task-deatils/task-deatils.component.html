@@ -5,7 +5,7 @@
       {{ task.title }}
     </p>
     <div class="actions">
-      <app-actions [actionType]="'task'" />
+      <app-actions [actionType]="'task'" (editAction)="openForm()" />
     </div>
   </div>
   <div>
@@ -23,7 +23,13 @@
     }
   </ul>
 
-  <!-- <select>
-    @for (status of statuses; track $index) {}
-  </select> -->
+  <p>Current Status</p>
+
+  <select>
+    <option [value]="task.status">{{ task.status }}</option>
+  </select>
 </div>
+
+@if (showTaskForm) {
+<app-task-form [task]="task" (close)="onHideMenu()" />
+}

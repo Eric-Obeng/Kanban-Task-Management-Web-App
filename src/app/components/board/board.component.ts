@@ -1,15 +1,17 @@
-import { Component, EventEmitter, Output, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { IBoard } from '../../interfaces/board';
 import {
-  selectSelectedBoard,
-  selectSelectedBoardId,
-} from '../../shared/state/board/board.selectors';
-import * as BoardActions from '../../shared/state/board/board.actions';
+  Component,
+  EventEmitter,
+  Output,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { IBoard } from '../../interfaces/board';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { TaskItemComponent } from './task-item/task-item.component';
 import { BoardFormComponent } from '../modal/forms/board-form/board-form.component';
+import { BoardService } from '../../shared/services/board.service';
+import { getRandomColor } from '../../shared/state/utils/generateColors';
 
 @Component({
   selector: 'app-board',
@@ -18,19 +20,27 @@ import { BoardFormComponent } from '../modal/forms/board-form/board-form.compone
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss'],
 })
-export class BoardComponent implements OnInit {
-  boards$: Observable<IBoard | null | undefined>;
+export class BoardComponent implements OnInit, OnDestroy {
+  selectedBoard$!: Observable<IBoard | null | undefined>;
+  private subscription: Subscription = new Subscription();
 
   @Output() createNewColumnClicked = new EventEmitter<void>();
+  color!: string
 
   showBoardForm: boolean = false;
 
-  constructor(private store: Store) {
-    this.boards$ = this.store.select(selectSelectedBoard);
-  }
+  constructor(public boardService: BoardService) {}
 
   ngOnInit(): void {
-    this.store.dispatch(BoardActions.loadBoards()); 
+    this.selectedBoard$ = this.boardService.selectedBoard$;
+    this.subscription.add(
+      this.boardService.boards$.subscribe() // This ensures the board list is always up to date
+    );
+    this.color = getRandomColor()
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   onCreateBoard() {
@@ -41,11 +51,8 @@ export class BoardComponent implements OnInit {
     this.showBoardForm = false;
   }
 
-  onSelectBoard(boardId: string) {
-    this.store.dispatch(BoardActions.selectBoard({ boardId }));
-  }
-
   onCreateNewColumn() {
+    this.showBoardForm = true;
     this.createNewColumnClicked.emit();
   }
 }

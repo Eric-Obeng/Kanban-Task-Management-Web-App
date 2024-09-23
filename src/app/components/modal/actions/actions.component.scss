@@ -39,6 +39,7 @@
       text-align: left;
       @extend .small;
       font-weight: bold;
+      cursor: pointer;
 
       &.edit {
         color: $medium-grey;
