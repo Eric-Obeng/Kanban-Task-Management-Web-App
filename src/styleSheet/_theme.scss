@@ -11,6 +11,7 @@ $light-mode: (
   "action": $white,
   "button-add": $main-purple-hover,
   "button-create": $main-purple,
+  "subtask-clr": $medium-grey,
 );
 
 $dark-mode: (
@@ -28,4 +29,5 @@ $dark-mode: (
   "action": $very-dark-grey-bg,
   "button-add": $white,
   "button-create": $main-purple-hover,
+  "subtask-clr": $white,
 );

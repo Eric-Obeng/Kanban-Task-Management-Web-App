@@ -6,32 +6,40 @@
       <app-actions [actionType]="'task'" (editAction)="openForm()" />
     </div>
   </div>
-  <div>
+  <div class="desc-div">
     <p>{{ task.description }}</p>
   </div>
-  <ul>
-    <p>Subtasks ({{ completedSubtaskCount }} of {{ task.subtasks.length }})</p>
+  <ul class="subtasks">
+    <p class="info">
+      Subtasks ({{ completedSubtaskCount }} of {{ task.subtasks.length }})
+    </p>
     <ng-container *ngFor="let subTask of task.subtasks; let i = index">
-      <div>
+      <div class="subtask-status">
         <input
           type="checkbox"
           [id]="'subTask' + i"
           [checked]="subTask.isCompleted"
           (change)="markAsCompleted(i, $event)"
         />
-        <label [for]="'subTask' + i">{{ subTask.title }}</label>
+        <label
+          [for]="'subTask' + i"
+          [class]="subTask.isCompleted ? 'completed' : ''"
+          >{{ subTask.title }}</label
+        >
       </div>
     </ng-container>
   </ul>
 
-  <p>Current Status</p>
-  <select (change)="onStatusChange($event)">
-    <ng-container *ngFor="let status of statuses; let i = index">
-      <option [value]="status" [selected]="status === task.status">
-        {{ status }}
-      </option>
-    </ng-container>
-  </select>
+  <div class="status">
+    <p>Current Status</p>
+    <select (change)="onStatusChange($event)">
+      <ng-container *ngFor="let status of statuses; let i = index">
+        <option [value]="status" [selected]="status === task.status">
+          {{ status }}
+        </option>
+      </ng-container>
+    </select>
+  </div>
 </div>
 
 <ng-container *ngIf="showTaskForm">
