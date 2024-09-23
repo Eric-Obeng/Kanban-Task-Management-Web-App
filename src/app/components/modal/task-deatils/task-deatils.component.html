@@ -1,35 +1,37 @@
 <div class="container" (click)="onHideMenu()"></div>
 <div class="task-detail-div" (click)="$event.stopPropagation()">
   <div class="col-1">
-    <p class="task-title">
-      {{ task.title }}
-    </p>
+    <p class="task-title">{{ task.title }}</p>
     <div class="actions">
       <app-actions [actionType]="'task'" (editAction)="openForm()" />
     </div>
   </div>
   <div>
-    <p>
-      {{ task.description }}
-    </p>
+    <p>{{ task.description }}</p>
   </div>
   <ul>
-    <p>Subtasks ( 1 of {{ task.subtasks.length }})</p>
-    @for (subTask of task.subtasks; track $index) {
-    <li>
-      <input type="checkbox" [checked]="subTask.isCompleted" />
-      {{ subTask.title }}
-    </li>
-    }
+    <p>Subtasks ({{ completedSubtaskCount }} of {{ task.subtasks.length }})</p>
+    <ng-container *ngFor="let subTask of task.subtasks; let i = index">
+      <div>
+        <input
+          type="checkbox"
+          [id]="'subTask' + i"
+          [checked]="subTask.isCompleted"
+          (change)="markAsCompleted(i, $event)"
+        />
+        <label [for]="'subTask' + i">{{ subTask.title }}</label>
+      </div>
+    </ng-container>
   </ul>
 
   <p>Current Status</p>
-
   <select>
-    <option [value]="task.status">{{ task.status }}</option>
+    <ng-container *ngFor="let status of statuses; let i = index">
+      <option [value]="status">{{ status }}</option>
+    </ng-container>
   </select>
 </div>
 
-@if (showTaskForm) {
-<app-task-form [task]="task" (close)="onHideMenu()" />
-}
+<ng-container *ngIf="showTaskForm">
+  <app-task-form [task]="task" (close)="onHideMenu()" />
+</ng-container>
