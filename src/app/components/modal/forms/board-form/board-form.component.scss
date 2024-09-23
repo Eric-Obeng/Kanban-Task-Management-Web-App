@@ -58,3 +58,9 @@
     }
   }
 }
+
+@include breakpoints.mq(tablet) {
+  .board-form {
+    width: 48rem;
+  }
+}

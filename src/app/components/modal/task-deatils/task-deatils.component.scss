@@ -1,34 +1,101 @@
+@use "../../../../styleSheet/breakpoints";
 @import "../../../../styleSheet/variables";
 @import "../../../../styleSheet/mixins";
 @import "../../../../styleSheet/typography";
 @import "../../../../styleSheet/utils";
-
 
 .container {
   @extend .transparent-bg;
 }
 
 .task-detail-div {
-  // background-color: var(--header-bg);
-  // z-index: 5;
-  // opacity: 1;
-  // position: absolute;
-  // top: 20%;
-  // width: 34.3rem;
-  // border-radius: 0.8rem;
-  // @include flex-column(start, start, 1.9rem);
-  // @extend .medium;
-  // left: 50%;
-  // transform: translate(-50%);
-  // padding: 2.4rem;
   @extend .modal;
 
   .col-1 {
     @include flex-row(center, space-between, 1.6rem);
     width: 100%;
 
-    .title {
+    .task-title {
       @extend .large;
+    }
+  }
+
+  .desc-div {
+    p {
+      color: $medium-grey;
+      line-height: 1.5;
+    }
+  }
+
+  .subtasks {
+    @include flex-column(start, space-between, 1.2rem);
+    width: 100%;
+
+    .info {
+      color: var(--subtask-clr);
+    }
+
+    .subtask-status {
+      @include flex-row(center, start, 0.8rem);
+      padding: 1.2rem;
+      width: 100%;
+      background-color: var(--background);
+      border-radius: 0.4rem;
+
+      input {
+        cursor: pointer;
+      }
+
+      .completed {
+        color: $medium-grey;
+        text-decoration: line-through;
+      }
+    }
+  }
+
+  .status {
+    @include flex-column(start, start, 1.5rem);
+    width: 100%;
+
+    p {
+      color: var(--subtask-clr);
+    }
+
+    select {
+      width: 100%;
+      height: 4rem;
+      border: 0.1rem solid $medium-grey;
+      background: none;
+      border-radius: 0.4rem;
+      padding: 0 1rem;
+      color: var(--text-clr);
+
+      &::after {
+        content: "\25BC";
+        position: absolute;
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
+        color: $main-purple;
+        pointer-events: none;
+      }
+
+      option {
+        background: var(--background);
+        color: black;
+      }
+    }
+  }
+}
+
+@include breakpoints.mq(tablet) {
+  .task-detail-div {
+    width: 48rem;
+
+    .col-1 {
+      .task-title {
+        width: 38.7rem;
+      }
     }
   }
 }
