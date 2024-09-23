@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, take } from 'rxjs';
 import { IBoard } from '../../interfaces/board';
+import { ITask } from '../../interfaces/task';
 import * as BoardActions from '../state/board/board.actions';
 import {
   selectAllBoards,
@@ -47,5 +48,25 @@ export class BoardService {
   updateBoard(board: IBoard) {
     this.store.dispatch(BoardActions.updateBoard({ board }));
     this.selectBoard(board);
+  }
+
+  updateTask(updatedTask: ITask) {
+    this.store
+      .select(selectSelectedBoard)
+      .pipe(take(1))
+      .subscribe((board) => {
+        if (board) {
+          const updatedBoard = {
+            ...board,
+            columns: board.columns.map((column) => ({
+              ...column,
+              tasks: column.tasks.map((task) =>
+                task.title === updatedTask.title ? updatedTask : task
+              ),
+            })),
+          };
+          this.updateBoard(updatedBoard);
+        }
+      });
   }
 }

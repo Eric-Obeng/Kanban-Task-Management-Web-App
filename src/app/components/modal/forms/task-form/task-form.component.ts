@@ -126,8 +126,8 @@ export class TaskFormComponent implements OnInit, OnDestroy {
         this.store.dispatch(
           updateTask({
             boardId: this.currentBoardId,
-            columnName: this.taskForm.value.status, // Assuming you're using the status as the column name
-            task: taskData, // Pass the updated task
+            columnName: this.taskForm.value.status,
+            task: taskData,
           })
         );
       } else {

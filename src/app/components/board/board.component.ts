@@ -25,7 +25,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
 
   @Output() createNewColumnClicked = new EventEmitter<void>();
-  color!: string
+  color!: string;
 
   showBoardForm: boolean = false;
 
@@ -36,7 +36,14 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.boardService.boards$.subscribe() // This ensures the board list is always up to date
     );
-    this.color = getRandomColor()
+    this.color = getRandomColor();
+
+    // Load the selected board from local storage
+    const storedBoard = localStorage.getItem('selectedBoard');
+    if (storedBoard) {
+      const board = JSON.parse(storedBoard);
+      this.boardService.selectBoard(board);
+    }
   }
 
   ngOnDestroy(): void {

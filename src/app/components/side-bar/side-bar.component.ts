@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output, OnInit } from '@angular/core';
 import { MenuMobileComponent } from '../menu-mobile/menu-mobile.component';
 import { ThemeComponent } from '../theme/theme.component';
 import { CommonModule } from '@angular/common';
@@ -21,7 +21,7 @@ import {
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.scss',
 })
-export class SideBarComponent {
+export class SideBarComponent implements OnInit {
   dataService = inject(BoardService);
 
   boards = this.dataService.boards$;
@@ -34,12 +34,18 @@ export class SideBarComponent {
 
   constructor(private store: Store) {}
 
+  ngOnInit() {
+    const storedBoard = localStorage.getItem('selectedBoard');
+    if (storedBoard) {
+      const board = JSON.parse(storedBoard);
+      this.onBoardClick(board);
+    }
+  }
+
   onBoardClick(board: IBoard) {
     this.store.dispatch(setSelectedBoard({ board }));
     localStorage.setItem('selectedBoard', JSON.stringify(board));
-    console.log(board);
     this.dataService.selectBoard(board);
-    console.log('Board clicked and selected:', board);
   }
 
   hideSidebar() {
