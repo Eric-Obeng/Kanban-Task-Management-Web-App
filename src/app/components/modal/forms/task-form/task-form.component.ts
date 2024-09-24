@@ -38,8 +38,8 @@ export class TaskFormComponent implements OnInit, OnDestroy {
   currentBoardId!: string;
   private boardSubscription!: Subscription;
 
-  @Input() task: ITask | null = null; // Allow for null task when creating a new task
-  @Input() taskIndex: number | null = null; // Optional index to identify task in the list (for updates)
+  @Input() task: ITask | null = null;
+  @Input() taskIndex: number | null = null;
   @Output() close = new EventEmitter<void>();
   @Output() hideMenu = new EventEmitter<void>();
 
@@ -67,7 +67,6 @@ export class TaskFormComponent implements OnInit, OnDestroy {
       }
     });
 
-    // Populate form if task is provided for editing
     if (this.task) {
       this.populateFormForEdit();
     }
@@ -90,7 +89,6 @@ export class TaskFormComponent implements OnInit, OnDestroy {
         status: this.task.status,
       });
 
-      // Clear and populate the subtasks form array
       this.subtasks.clear();
       this.task.subtasks.forEach((subtask) => {
         this.subtasks.push(this.fb.control(subtask.title, Validators.required));
@@ -122,7 +120,6 @@ export class TaskFormComponent implements OnInit, OnDestroy {
       };
 
       if (this.task) {
-        // If editing, dispatch the update task action with task object
         this.store.dispatch(
           updateTask({
             boardId: this.currentBoardId,
@@ -131,7 +128,6 @@ export class TaskFormComponent implements OnInit, OnDestroy {
           })
         );
       } else {
-        // If creating new, dispatch add task action
         this.store.dispatch(
           addTask({
             boardId: this.currentBoardId,

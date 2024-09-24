@@ -3,7 +3,11 @@
   <div class="col-1">
     <p class="task-title">{{ task.title }}</p>
     <div class="actions">
-      <app-actions [actionType]="'task'" (editAction)="openForm()" />
+      <app-actions
+        [actionType]="'task'"
+        (editAction)="openForm()"
+        (deleteAction)="openDelete()"
+      />
     </div>
   </div>
   <div class="desc-div">
@@ -45,3 +49,5 @@
 <ng-container *ngIf="showTaskForm">
   <app-task-form [task]="task" (close)="onHideMenu()" />
 </ng-container>
+
+<app-delete *ngIf="showDeleteModal" [task]="task" (close)="onHideDelete()"/>

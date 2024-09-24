@@ -65,7 +65,20 @@ export class BoardService {
               ),
             })),
           };
+
+          // Dispatch action to update the store
           this.updateBoard(updatedBoard);
+
+          // Update the BehaviorSubject to reflect the new selected board
+          this.selectedBoardSubject.next(updatedBoard);
+
+          // Update local storage for both boards and selectedBoard
+          const boards = JSON.parse(localStorage.getItem('boards') || '[]');
+          const updatedBoards = boards.map((b: IBoard) =>
+            b.id === board.id ? updatedBoard : b
+          );
+          localStorage.setItem('boards', JSON.stringify(updatedBoards));
+          localStorage.setItem('selectedBoard', JSON.stringify(updatedBoard));
         }
       });
   }
@@ -85,7 +98,6 @@ export class BoardService {
       .pipe(take(1))
       .subscribe((board) => {
         if (board) {
-          // Filter out the task to be deleted
           const updatedBoard = {
             ...board,
             columns: board.columns.map((column) => ({
@@ -94,15 +106,11 @@ export class BoardService {
             })),
           };
 
-          // Dispatch action to update the store
           this.store.dispatch(
             BoardActions.updateBoard({ board: updatedBoard })
           );
-
-          // Update the BehaviorSubject to reflect the new selected board in real-time
           this.selectedBoardSubject.next(updatedBoard);
 
-          // Update local storage for both boards and selectedBoard
           const boards = JSON.parse(localStorage.getItem('boards') || '[]');
           const updatedBoards = boards.map((b: IBoard) =>
             b.id === board.id ? updatedBoard : b

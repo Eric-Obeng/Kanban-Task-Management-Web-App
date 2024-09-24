@@ -17,11 +17,12 @@ import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import * as BoardActions from '../../../shared/state/board/board.actions';
+import { DeleteComponent } from '../delete/delete.component';
 
 @Component({
   selector: 'app-task-details',
   standalone: true,
-  imports: [ActionsComponent, TaskFormComponent, CommonModule],
+  imports: [ActionsComponent, TaskFormComponent, CommonModule, DeleteComponent],
   templateUrl: './task-deatils.component.html',
   styleUrls: ['./task-deatils.component.scss'],
 })
@@ -35,6 +36,7 @@ export class TaskDetailsComponent implements OnInit, OnChanges {
   boardId!: string;
 
   showTaskForm = false;
+  showDeleteModal = false;
 
   constructor(
     private boardService: BoardService,
@@ -112,5 +114,13 @@ export class TaskDetailsComponent implements OnInit, OnChanges {
 
   onHideMenu() {
     this.hideMenu.emit();
+  }
+
+  openDelete() {
+    this.showDeleteModal = !this.showDeleteModal;
+  }
+
+  onHideDelete() {
+    this.showDeleteModal = false;
   }
 }
