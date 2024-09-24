@@ -69,4 +69,47 @@ export class BoardService {
         }
       });
   }
+
+  deleteBoard(boardId: string) {
+    this.store.dispatch(BoardActions.deleteBoard({ id: boardId }));
+    const boards = JSON.parse(localStorage.getItem('boards') || '[]');
+    const updatedBoards = boards.filter(
+      (board: IBoard) => board.id !== boardId
+    );
+    localStorage.setItem('boards', JSON.stringify(updatedBoards));
+  }
+
+  deleteTask(taskTitle: string) {
+    this.store
+      .select(selectSelectedBoard)
+      .pipe(take(1))
+      .subscribe((board) => {
+        if (board) {
+          // Filter out the task to be deleted
+          const updatedBoard = {
+            ...board,
+            columns: board.columns.map((column) => ({
+              ...column,
+              tasks: column.tasks.filter((task) => task.title !== taskTitle),
+            })),
+          };
+
+          // Dispatch action to update the store
+          this.store.dispatch(
+            BoardActions.updateBoard({ board: updatedBoard })
+          );
+
+          // Update the BehaviorSubject to reflect the new selected board in real-time
+          this.selectedBoardSubject.next(updatedBoard);
+
+          // Update local storage for both boards and selectedBoard
+          const boards = JSON.parse(localStorage.getItem('boards') || '[]');
+          const updatedBoards = boards.map((b: IBoard) =>
+            b.id === board.id ? updatedBoard : b
+          );
+          localStorage.setItem('boards', JSON.stringify(updatedBoards));
+          localStorage.setItem('selectedBoard', JSON.stringify(updatedBoard));
+        }
+      });
+  }
 }

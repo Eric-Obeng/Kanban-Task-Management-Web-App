@@ -1,4 +1,10 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  SimpleChanges,
+} from '@angular/core';
 import { ITask } from '../../../interfaces/task';
 import { CommonModule } from '@angular/common';
 import { TaskDetailsComponent } from '../../modal/task-deatils/task-deatils.component';
@@ -10,13 +16,14 @@ import { BoardService } from '../../../shared/services/board.service';
   imports: [TaskDetailsComponent, CommonModule],
   templateUrl: './task-item.component.html',
   styleUrl: './task-item.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TaskItemComponent {
   @Input() task!: ITask;
   showMenuModal: boolean = false;
   completedTaskCount: number = 0;
 
-  constructor(private boardService: BoardService) {}
+  constructor(private boardService: BoardService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.updateCompletedTaskCount();
@@ -47,5 +54,7 @@ export class TaskItemComponent {
     this.task = updatedTask;
     this.updateCompletedTaskCount();
     this.boardService.updateTask(updatedTask);
+
+    this.cdr.markForCheck();
   }
 }

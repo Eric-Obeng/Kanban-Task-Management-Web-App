@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as BoardActions from './board.actions';
 import { boardAdapter, initialBoardState } from '../board/board.entity';
+import { ITask } from '../../../interfaces/task';
 
 export const boardReducer = createReducer(
   initialBoardState,
@@ -153,61 +154,41 @@ export const boardReducer = createReducer(
       const board = state.entities[boardId];
       if (!board) return state;
 
-      // Find source and target columns
-      const sourceCol = board.columns.find((col) => col.name === sourceColumn);
-      const targetCol = board.columns.find((col) => col.name === targetColumn);
-      if (!sourceCol || !targetCol) return state;
+      let taskBeingMoved: ITask | undefined;
 
-      // Find task to move from the source column
-      const taskToMove = sourceCol.tasks.find((task) => task.title === taskId);
-      if (!taskToMove) return state;
+      // Create updated columns in a single pass
+      const updatedColumns = board.columns.map((column) => {
+        if (column.name === sourceColumn) {
+          // Remove the task from the source column
+          const updatedTasks = column.tasks.filter((task) => {
+            const isMovingTask = task.title === taskId;
+            if (isMovingTask) {
+              taskBeingMoved = task; // Save the task being moved
+            }
+            return !isMovingTask;
+          });
+          return { ...column, tasks: updatedTasks };
+        } else if (column.name === targetColumn && taskBeingMoved) {
+          // Add the task to the target column
+          return {
+            ...column,
+            tasks: [
+              ...column.tasks,
+              { ...taskBeingMoved, status: targetColumn },
+            ],
+          };
+        }
+        return column;
+      });
 
-      // Remove task from the source column
-      const updatedSourceColumn = {
-        ...sourceCol,
-        tasks: sourceCol.tasks.filter((task) => task.title !== taskId), // Remove task
-      };
-
-      // Add task to the target column at the last index
-      const updatedTargetColumn = {
-        ...targetCol,
-        tasks: [...targetCol.tasks, taskToMove], // Append task to the end
-      };
-
-      // Update columns in the board
-      const updatedColumns = board.columns.map((col) =>
-        col.name === sourceColumn
-          ? updatedSourceColumn
-          : col.name === targetColumn
-          ? updatedTargetColumn
-          : col
-      );
-
-      // Update the board with the modified columns
       const updatedBoard = {
         ...board,
         columns: updatedColumns,
       };
 
-      // Update selectedBoard in state
-      const updatedSelectedBoard =
-        state.selectedBoard?.id === boardId
-          ? updatedBoard
-          : state.selectedBoard;
-
-      // Save the updated board to localStorage
-      localStorage.setItem(
-        'selectedBoard',
-        JSON.stringify(updatedSelectedBoard)
-      );
-
-      // Update the board entity and selectedBoard
       return boardAdapter.updateOne(
         { id: board.id, changes: updatedBoard },
-        {
-          ...state,
-          selectedBoard: updatedSelectedBoard,
-        }
+        state
       );
     }
   )

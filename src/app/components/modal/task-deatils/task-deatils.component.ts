@@ -100,8 +100,8 @@ export class TaskDetailsComponent implements OnInit, OnChanges {
           taskId: this.task.title,
         })
       );
-      const updatedTask = { ...this.task, status: newStatus };
-      this.taskChange.emit(updatedTask);
+
+      this.boardService.updateTask({ ...this.task, status: newStatus });
     }
   }
 

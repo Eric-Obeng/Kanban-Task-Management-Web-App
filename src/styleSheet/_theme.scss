@@ -12,6 +12,7 @@ $light-mode: (
   "button-add": $main-purple-hover,
   "button-create": $main-purple,
   "subtask-clr": $medium-grey,
+  "cancel": $white-bg
 );
 
 $dark-mode: (
@@ -30,4 +31,5 @@ $dark-mode: (
   "button-add": $white,
   "button-create": $main-purple-hover,
   "subtask-clr": $white,
+  "cancel": $white,
 );

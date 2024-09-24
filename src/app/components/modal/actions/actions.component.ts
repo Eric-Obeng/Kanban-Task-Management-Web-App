@@ -13,6 +13,7 @@ import { BoardFormComponent } from '../forms/board-form/board-form.component';
 export class ActionsComponent {
   @Input() actionType: 'board' | 'task' = 'board';
   @Output() editAction = new EventEmitter<void>();
+  @Output() deleteAction = new EventEmitter<void>();
 
   showActions: boolean = false;
 
@@ -26,5 +27,7 @@ export class ActionsComponent {
     this.editAction.emit();
   }
 
-  onDelete() {}
+  onDelete() {
+    this.deleteAction.emit();
+  }
 }
