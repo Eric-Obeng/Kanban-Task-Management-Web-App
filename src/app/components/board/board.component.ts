@@ -32,13 +32,16 @@ export class BoardComponent implements OnInit, OnDestroy {
   constructor(public boardService: BoardService) {}
 
   ngOnInit(): void {
+    // Subscribing to the observable that provides the selected board
     this.selectedBoard$ = this.boardService.selectedBoard$;
-    this.subscription.add(
-      this.boardService.boards$.subscribe() // This ensures the board list is always up to date
-    );
+
+    // Make sure the board list is always up to date (optional if not needed)
+    this.subscription.add(this.boardService.boards$.subscribe());
+
+    // Set a random color for display (could be for column color, for example)
     this.color = getRandomColor();
 
-    // Load the selected board from local storage
+    // Load the selected board from local storage when the component initializes
     const storedBoard = localStorage.getItem('selectedBoard');
     if (storedBoard) {
       const board = JSON.parse(storedBoard);

@@ -8,6 +8,10 @@
 @if (showMenuModal) {
 
 <div class="details">
-  <app-task-details [task]="task" (taskChange)="onTaskChange($event)" (hideMenu)="onHideMenuModal()" />
+  <app-task-details
+    [task]="task"
+    (taskChange)="onTaskChange($event)"
+    (hideMenu)="onHideMenuModal()"
+  />
 </div>
 }
