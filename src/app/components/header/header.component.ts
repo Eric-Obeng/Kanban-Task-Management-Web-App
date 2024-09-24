@@ -10,6 +10,7 @@ import { ActionsComponent } from '../modal/actions/actions.component';
 import { BoardComponent } from '../board/board.component';
 import { BoardFormComponent } from '../modal/forms/board-form/board-form.component';
 import { TaskFormComponent } from '../modal/forms/task-form/task-form.component';
+import { DeleteComponent } from '../modal/delete/delete.component';
 // import { selectSelectedBoard } from '../../shared/state/board/board.selectors';
 
 @Component({
@@ -21,6 +22,7 @@ import { TaskFormComponent } from '../modal/forms/task-form/task-form.component'
     ActionsComponent,
     BoardFormComponent,
     TaskFormComponent,
+    DeleteComponent,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
@@ -32,6 +34,12 @@ export class HeaderComponent {
   showMenuModal: boolean = false;
   showBoardForm = false;
   showTaskForm = false;
+  showDeleteModal = false;
+
+  chevronDownPath: string = 'M1 1 5 5 9 1';
+  chevronUpPath: string = 'M9 6 5 2 1 6';
+
+  currentChevronPath: string = this.chevronDownPath;
 
   constructor(private apiServie: ApiService, private store: Store) {
     this.selectedBoards$ = this.store.select(selectSelectedBoard);
@@ -46,10 +54,20 @@ export class HeaderComponent {
   onShowMenuModal() {
     this.showMenuModal = true;
     console.log(this.showMenuModal);
+    this.toggleChevron();
   }
   onHideMenuModal() {
     this.showMenuModal = false;
     this.showBoardForm = false;
+    this.showDeleteModal = false;
+    this.toggleChevron();
+  }
+
+  toggleChevron() {
+    this.currentChevronPath =
+      this.currentChevronPath === this.chevronDownPath
+        ? this.chevronUpPath
+        : this.chevronDownPath; // Toggle between chevron paths
   }
 
   openForm() {
@@ -64,5 +82,9 @@ export class HeaderComponent {
 
   onShowTaskForm() {
     this.showTaskForm = true;
+  }
+
+  openDeleteModal() {
+    this.showDeleteModal = !this.showDeleteModal;
   }
 }

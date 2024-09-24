@@ -16,19 +16,27 @@
           {{ board.name }}
         </p>
         <span>
-          <img
-            src="../../../assets/images/icon-chevron-down.svg"
-            alt="icon chevron down"
-          />
+          <svg width="10" height="7" xmlns="http://www.w3.org/2000/svg">
+            <path
+              [attr.d]="currentChevronPath"
+              stroke="#635FC7"
+              stroke-width="2"
+              fill="none"
+            />
+          </svg>
         </span>
         }@else {
         <p>No Board Selected</p>
 
         <span>
-          <img
-            src="../../../assets/images/icon-chevron-down.svg"
-            alt="icon chevron down"
-          />
+          <svg width="10" height="7" xmlns="http://www.w3.org/2000/svg">
+            <path
+              [attr.d]="currentChevronPath"
+              stroke="#635FC7"
+              stroke-width="2"
+              fill="none"
+            />
+          </svg>
         </span>
         }
       </div>
@@ -44,7 +52,11 @@
         <span class="add-icon-large">+Add New Task</span>
       </button>
       <div class="actions">
-        <app-actions [actionType]="'board'" (editAction)="openForm()" />
+        <app-actions
+          [actionType]="'board'"
+          (editAction)="openForm()"
+          (deleteAction)="openDeleteModal()"
+        />
       </div>
     </div>
   </div>
@@ -61,4 +73,10 @@
   *ngIf="showMenuModal"
   (hideMenu)="onHideMenuModal()"
   (createBoardClicked)="openForm()"
+/>
+
+<app-delete
+  *ngIf="showDeleteModal"
+  (close)="onHideMenuModal()"
+  [board]="selectedBoards$ | async"
 />

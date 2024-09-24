@@ -42,6 +42,11 @@
       background-color: var(--background);
       border-radius: 0.4rem;
 
+      &:hover {
+        background-color: $main-purple;
+        color: var(--text-clr);
+      }
+
       input {
         cursor: pointer;
       }

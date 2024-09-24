@@ -1,0 +1,60 @@
+@use "../../../../styleSheet/breakpoints";
+@import "../../../../styleSheet/mixins";
+@import "../../../../styleSheet/variables";
+@import "../../../../styleSheet/typography";
+@import "../../../../styleSheet/utils";
+
+.container {
+  @extend .transparent-bg;
+}
+
+.delete-div {
+  @extend .modal;
+
+  h3 {
+    color: $red;
+  }
+
+  .note {
+    color: $medium-grey;
+  }
+
+  .actions {
+    width: 100%;
+    @include flex-column(start, space-between);
+
+    .btn {
+      width: 100%;
+      height: 4rem;
+      border-radius: 2rem;
+      border: none;
+      background: none;
+      font-weight: 600;
+      cursor: pointer;
+
+      &.delete {
+        background: $red;
+        color: $white;
+
+        &:hover {
+          background: $red-hover;
+        }
+      }
+
+      &.cancel {
+        background: var(--cancel);
+        color: $main-purple;
+      }
+    }
+  }
+}
+
+@include breakpoints.mq(tablet) {
+  .delete-div {
+    width: 48rem;
+
+    .actions {
+      @include flex-row();
+    }
+  }
+}
