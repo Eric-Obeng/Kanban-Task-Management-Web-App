@@ -127,6 +127,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
             task: taskData,
           })
         );
+        console.log('updated task', taskData);
       } else {
         this.store.dispatch(
           addTask({

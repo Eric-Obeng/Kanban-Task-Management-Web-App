@@ -129,15 +129,16 @@ export const boardReducer = createReducer(
     const board = state.entities[boardId];
     if (!board) return state;
 
-    // Update the task in the specified column
-    const updatedColumns = board.columns.map((col) =>
-      col.name === columnName
-        ? {
-            ...col,
-            tasks: col.tasks.map((t) => (t.title === task.title ? task : t)),
-          }
-        : col
-    );
+    // Find the target column
+    const updatedColumns = board.columns.map((col) => {
+      if (col.name === columnName) {
+        const updatedTasks = col.tasks.map((t) =>
+          t.title === task.title ? task : t
+        );
+        return { ...col, tasks: updatedTasks };
+      }
+      return col;
+    });
 
     // Create the updated board with modified columns
     const updatedBoard = {
@@ -145,14 +146,14 @@ export const boardReducer = createReducer(
       columns: updatedColumns,
     };
 
-    // Update selectedBoard if the boardId matches
+    // Update the selectedBoard if the boardId matches
     const updatedSelectedBoard =
       state.selectedBoard?.id === boardId ? updatedBoard : state.selectedBoard;
 
     // Persist the updated selectedBoard in localStorage
     localStorage.setItem('selectedBoard', JSON.stringify(updatedSelectedBoard));
 
-    // Update both the board entity and the selectedBoard
+    // Update both the board entity and the selectedBoard in the state
     return boardAdapter.updateOne(
       { id: board.id, changes: updatedBoard },
       {
@@ -161,6 +162,7 @@ export const boardReducer = createReducer(
       }
     );
   }),
+
   // Move task between columns
   on(
     BoardActions.moveTask,
