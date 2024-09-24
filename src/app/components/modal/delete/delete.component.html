@@ -1,0 +1,21 @@
+<div class="container" (click)="onHideMenu($event)" *ngIf="hideMenu"></div>
+
+<div class="delete-div">
+  <h3>Delete this {{ board ? "board" : "task" }}?</h3>
+  <ng-container *ngIf="board">
+    <p class="note">
+      Are you sure you want to delete the '{{ board.name }}' board? This action
+      will remove all columns and tasks and cannot be reversed.
+    </p>
+  </ng-container>
+  <ng-container *ngIf="task">
+    <p class="note">
+      Are you sure you want to delete the '{{ task.title }}' task? This action
+      will remove all columns and tasks and cannot be reversed.
+    </p>
+  </ng-container>
+  <div class="actions">
+    <button class="btn delete" (click)="delete()">Delete</button>
+    <button class="btn cancel" (click)="cancel()">Cancel</button>
+  </div>
+</div>
